@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site.config';
+
+const year = new Date().getFullYear();
+---
+
+<Base>
+  <header class="nav wrap">
+    <a class="brand" href="/">
+      <img src="/favicon.svg" alt="" width="28" height="28" />
+      <span>{site.name}</span>
+    </a>
+    <a class="nav-link" href="#join">{site.hero.primaryCta.label}</a>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <p class="eyebrow">{site.hero.eyebrow}</p>
+      <h1>{site.hero.title}</h1>
+      <p class="byline">{site.name} <em>{site.byline}</em></p>
+      <p class="lede">{site.hero.lede}</p>
+      <div class="actions">
+        <a class="btn btn-primary" href={site.hero.primaryCta.href}>{site.hero.primaryCta.label}</a>
+        <a class="btn btn-ghost" href={site.hero.secondaryCta.href}>{site.hero.secondaryCta.label}</a>
+      </div>
+    </section>
+
+    <section id="about" class="about wrap">
+      <h2>{site.about.title}</h2>
+      {site.about.paragraphs.map((p) => <p>{p}</p>)}
+    </section>
+
+    <section class="features wrap" aria-label="What you'll find">
+      {
+        site.features.map((f) => (
+          <article class="card">
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </article>
+        ))
+      }
+    </section>
+
+    <section id="join" class="join wrap">
+      <h2>{site.join.title}</h2>
+      <p>{site.join.body}</p>
+      <a class="btn btn-primary" href={site.join.cta.href}>{site.join.cta.label}</a>
+    </section>
+  </main>
+
+  <footer class="footer wrap">
+    <p>&copy; {year} {site.name} {site.byline}</p>
+    {
+      site.social.length > 0 && (
+        <ul class="social">
+          {site.social.map((s) => (
+            <li>
+              <a href={s.href} rel="me noopener" target="_blank">
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </footer>
+</Base>
