@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>404 (mobile) — The Callroom</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=DM+Sans:opsz,wght@9..40,400..700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F7F0E4}
+a{color:#8A4F17}a:hover{color:#2B1A12}
+</style>
+</helmet>
+<div style="width: 390px; background: #F7F0E4; font-family: 'DM Sans', system-ui, sans-serif; color: #2B1A12; position: relative">
+<dc-import name="MobileHeader" hint-size="100%,64px"></dc-import>
+<main><dc-import name="NotFoundBody" hint-size="100%,1300px"></dc-import></main>
+<dc-import name="SiteFooter" hint-size="100%,900px"></dc-import>
+<div style="height: 76px"></div>
+<dc-import name="BottomNav" active="NotFound" hint-size="100%,76px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":2380}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

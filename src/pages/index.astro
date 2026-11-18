@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeBody from '../components/design/HomeBody.jsx';
+import { shopSchema } from '../lib/schema.js';
+---
+
+<BaseLayout title="Your Daily Coffee Shop in CDO" active="Home" description="Specialty coffee on the 2nd floor of Madonna Hospital, CDO. Brewed fresh from 6AM, Mon–Sat. 100% Arabica, no powdered mixes. Order ahead for pickup or book our coffee cart." schema={shopSchema(Astro.site)}>
+  <HomeBody client:load />
+</BaseLayout>

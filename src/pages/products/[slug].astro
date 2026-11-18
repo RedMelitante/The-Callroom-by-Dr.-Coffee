@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductBody from '../../components/design/ProductBody.jsx';
+import { DRINKS, priceRange, seriesOf } from '../../lib/catalog.js';
+
+export function getStaticPaths() {
+  return DRINKS.map((d) => ({ params: { slug: d.slug }, props: { drink: d } }));
+}
+
+const { drink } = Astro.props;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: drink.name,
+  description: drink.description,
+  image: new URL(drink.img, Astro.site).href,
+  category: seriesOf(drink)?.name,
+  brand: { '@type': 'Brand', name: 'The Callroom by Dr. Coffee' },
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'PHP',
+    lowPrice: priceRange(drink).replace('₱', '').split('–')[0],
+    highPrice: priceRange(drink).split('–')[1],
+    availability: 'https://schema.org/InStoreOnly',
+  },
+};
+---
+
+<BaseLayout title={drink.name} active="Product" description={`${drink.name} (${priceRange(drink)}): ${drink.description} Order ahead for pickup at the 2nd floor kiosk, Madonna Hospital, CDO.`} image={drink.img} schema={schema}>
+  <ProductBody client:load slug={drink.slug} />
+</BaseLayout>

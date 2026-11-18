@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MenuBody from '../components/design/MenuBody.jsx';
+
+---
+
+<BaseLayout title="Order Ahead" active="Menu" description="Order ahead and pick up at the 2nd floor kiosk, Madonna Hospital, CDO. Choose your drink, sugar and ice, then pick a time.">
+  <MenuBody client:load />
+</BaseLayout>

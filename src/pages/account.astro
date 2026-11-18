@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AccountBody from '../components/design/AccountBody.jsx';
+
+---
+
+<BaseLayout title="My account" active="Account" noindex>
+  <AccountBody client:load />
+</BaseLayout>

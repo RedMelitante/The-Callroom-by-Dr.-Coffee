@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleBody from '../../components/design/ArticleBody.jsx';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const words = (post.body || '').split(/\s+/).filter(Boolean).length;
+const readTime = Math.max(1, Math.round(words / 220));
+const dateLabel = post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+---
+
+<BaseLayout title={post.data.title} active="Article" description={post.data.summary} image={post.data.image}>
+  <ArticleBody
+    title={post.data.title}
+    summary={post.data.summary}
+    category={post.data.category}
+    image={post.data.image}
+    imageAlt={post.data.imageAlt}
+    dateLabel={dateLabel}
+    readTime={readTime}
+  >
+    <Content />
+  </ArticleBody>
+</BaseLayout>

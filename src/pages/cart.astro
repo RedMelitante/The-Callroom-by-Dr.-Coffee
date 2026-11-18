@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CartBody from '../components/design/CartBody.jsx';
+
+---
+
+<BaseLayout title="Your order" active="Cart" noindex>
+  <CartBody client:load />
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogBody from '../../components/design/BlogBody.jsx';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .map((p) => ({
+    href: `/blogs/${p.id}`,
+    title: p.data.title,
+    summary: p.data.summary,
+    category: p.data.category,
+    image: p.data.image,
+    dateLabel: p.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+  }));
+---
+
+<BaseLayout title="Blog" active="Blog" description="Coffee tips, event highlights and behind-the-scenes stories from The Callroom by Dr. Coffee in Cagayan de Oro.">
+  <BlogBody posts={posts} />
+</BaseLayout>

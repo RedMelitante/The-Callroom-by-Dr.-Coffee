@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /cart
+Disallow: /checkout
+Disallow: /account
+Disallow: /order/confirmed
+
+Sitemap: https://callroomcoffee.com/sitemap-index.xml
