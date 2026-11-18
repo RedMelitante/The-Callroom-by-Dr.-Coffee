@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Menu — The Callroom</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=DM+Sans:opsz,wght@9..40,400..700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; font-family: 'DM Sans', system-ui, sans-serif; color: #2B1A12; background: #F7F0E4; padding: clamp(28px, 5vw, 64px) clamp(20px, 4vw, 40px) clamp(56px, 7vw, 96px); box-sizing: border-box">
+<div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px">
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">Order ahead · pickup only</span>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(40px, 5.5vw, 68px); letter-spacing: -0.03em; line-height: 1">Order Ahead</h1>
+<p style="margin: 0; font-size: 17px; color: #5A3A28; line-height: 1.6; max-width: 520px">Pick your drink, choose a time, collect it at the 2nd floor kiosk. Prices shown from smallest to largest size.</p>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 14px; background: #FFFBF4; border: 1px solid #E3D5BF; font-size: 14px">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F6F6A" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+<span>Next pickup slot: <strong>in ~15 min</strong></span>
+</div>
+</div>
+
+<div role="tablist" aria-label="Drink series" style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; position: sticky; top: 0; background: #F7F0E4; z-index: 2">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="6">
+<button type="button" role="tab" aria-selected="{{t.sel}}" onClick="{{t.pick}}" style="flex: none; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid {{t.bd}}; background: {{t.bg}}; color: {{t.fg}}; font-family: inherit; font-weight: 700; font-size: 15px; cursor: pointer; white-space: nowrap">{{t.label}} <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 12px; opacity: 0.8">{{t.count}}</span></button>
+</sc-for>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: clamp(12px, 2vw, 20px)">
+<sc-for list="{{shown}}" as="d" hint-placeholder-count="8">
+<article style="background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column">
+<div style="display: flex; justify-content: space-between; padding: 9px 14px; border-bottom: 1px dashed #D6C3A5; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A3A28"><span>Rx · {{d.series}}</span><span>{{d.tag}}</span></div>
+<a href="Product.dc.html" aria-label="{{d.name}}" style="aspect-ratio: 1 / 1; background: {{d.bg}}; display: flex; align-items: center; justify-content: center; color: #7A5A40; text-decoration: none">
+<sc-if value="{{d.img}}" hint-placeholder-val="{{ true }}"><img src="{{d.img}}" alt="" style="width: 100%; height: 100%; object-fit: contain; display: block"></sc-if><sc-if value="{{d.noImg}}" hint-placeholder-val="{{ false }}"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10l-1.5 16h-7z"/><path d="M6 4h12M9 9h6"/></svg></sc-if>
+</a>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 4px; flex: 1 1 auto">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.15"><a href="Product.dc.html" style="color: #2B1A12; text-decoration: none">{{d.name}}</a></h2>
+<p style="margin: 0; font-size: 13px; color: #5A3A28; line-height: 1.45; flex: 1 1 auto">{{d.sig}}</p>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 8px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 15px">{{d.price}}</span>
+<button type="button" aria-label="{{d.addLabel}}" aria-pressed="{{d.pressed}}" onClick="{{d.add}}" style="width: 44px; height: 44px; flex: none; border-radius: 999px; border: none; background: {{d.addBg}}; color: {{d.addFg}}; display: inline-flex; align-items: center; justify-content: center; cursor: pointer"><sc-if value="{{d.notAdded}}" hint-placeholder-val="{{ true }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></sc-if><sc-if value="{{d.isAdded}}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></sc-if></button>
+</div>
+</div>
+</article>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; padding: 20px 24px; border-radius: 20px; border: 1.5px dashed #B79C7A; background: #FFFBF4">
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<p style="margin: 0; font-size: 15px; color: #5A3A28; max-width: 640px; flex: 1 1 100%"><strong style="color: #2B1A12">Sugar and ice your way.</strong> Every drink can be adjusted on the next screen. Need it for a group? The Coffee Cart serves events across CDO.</p>
+<a href="OurMenu.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; border-radius: 999px; border: 1.5px solid #2B1A12; color: #2B1A12; font-weight: 700; text-decoration: none">See full price list</a>
+<a href="Events.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; border-radius: 999px; background: #2F6F6A; color: #FFFFFF; font-weight: 700; text-decoration: none">Book the Coffee Cart</a>
+</div>
+</div>
+
+</div>
+<sc-if value="{{toast}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%); z-index: 50; display: flex; align-items: center; gap: 14px; padding: 12px 14px 12px 18px; border-radius: 999px; background: #2B1A12; color: #F7F0E4; box-shadow: 0 12px 30px rgba(43, 26, 18, 0.3); font-size: 15px; white-space: nowrap">
+<span><strong>{{toastName}}</strong> added</span>
+<a href="Cart.dc.html" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; background: #E0A458; color: #2B1A12; font-weight: 800; text-decoration: none">View cart</a>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1700}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { tab: 'All', added: {}, toast: null }; }
+renderVals() {
+const items = [
+{ series: 'Coffee', tag: 'Fav', img: '../assets/images/dr-black-coffee.webp', name: 'Dr. Black Coffee', sig: 'Straight, strong, no sugar needed.', price: '₱100–180', tint: '#CDB596' },
+{ series: 'Coffee', tag: 'Fav', img: '../assets/images/dr-brew-coffee.webp', name: 'Dr. Brew Coffee', sig: 'Our everyday house brew.', price: '₱100–180', tint: '#E6D3B6' },
+{ series: 'Coffee', tag: 'Fav', img: '../assets/images/caramel-remedy.webp', name: 'Caramel Remedy', sig: 'Espresso, milk and caramel.', price: '₱120–190', tint: '#E2C9A6' },
+{ series: 'Coffee', tag: 'Fav', img: '../assets/images/dr-viet-coffee.webp', name: 'Dr. Viet Coffee', sig: 'Bold and sweet, Vietnamese-style.', price: '₱120–190', tint: '#DCC5A4' },
+{ series: 'Coffee', tag: 'Fav', img: '../assets/images/salted-caramel-drip.webp', name: 'Salted Caramel Drip', sig: 'Sweet, salty, slow-dripped.', price: '₱120–190', tint: '#E8D2B0' },
+{ series: 'Coffee', tag: 'Fav', img: '../assets/images/spanish-stimu-latte.webp', name: 'Spanish Stimu-Latte', sig: 'Creamy, sweet, wakes you up.', price: '₱120–190', tint: '#E0CCAE' },
+{ series: 'Coffee', tag: '', img: '../assets/images/white-coat-mocha.webp', name: 'White Coat Mocha', sig: 'Espresso and chocolate.', price: '₱120–190', tint: '#E0CCAE' },
+{ series: 'Milk', tag: 'Fav', img: '../assets/images/caramel-milk-therapy.webp', name: 'Caramel Milk Therapy', sig: 'Fresh milk and house caramel.', price: '₱145–170', tint: '#EAD7BA' },
+{ series: 'Milk', tag: 'Fav', img: '../assets/images/chocolate-milk-therapy.webp', name: 'Chocolate Milk Therapy', sig: 'Rich chocolate and fresh milk.', price: '₱145–170', tint: '#D9C1A3' },
+{ series: 'Milk', tag: '', img: '../assets/images/strawberry-milk-therapy.webp', name: 'Strawberry Milk Therapy', sig: 'Strawberry and fresh milk.', price: '₱145–170', tint: '#F6DCD3' },
+{ series: 'Yakult', tag: '', img: '../assets/images/green-apple-yakult.webp', name: 'Green Apple Yakult Gut Shot', sig: 'Green apple and Yakult.', price: '₱145–170', tint: '#F6DCD3' },
+{ series: 'Yakult', tag: '', img: '../assets/images/lychee-yakult.webp', name: 'Lychee Yakult Gut Shot', sig: 'Lychee and Yakult.', price: '₱145–170', tint: '#F3D3C8' },
+{ series: 'Soda', tag: '', img: '../assets/images/blue-pulse-soda.webp', name: 'Blue Pulse Soda', sig: 'Sparkling soda with a blue layer.', price: '₱145–170', tint: '#D3E6E2' },
+{ series: 'Soda', tag: '', img: '../assets/images/strawberry-pulse-soda.webp', name: 'Strawberry Pulse Soda', sig: 'Sparkling soda with strawberry.', price: '₱145–170', tint: '#C8DFDA' },
+{ series: 'Tea', tag: '', img: '../assets/images/lemon-detoxi-tea.webp', name: 'Lemon Detoxi-Tea', sig: 'Iced tea with lemon.', price: '₱145–170', tint: '#E8D2B0' },
+{ series: 'Tea', tag: '', img: '../assets/images/passionfruit-detoxi-tea.webp', name: 'Passionfruit Detoxi-Tea', sig: 'Iced tea with passionfruit.', price: '₱145–170', tint: '#E8D2B0' }
+];
+const addFx = (d) => { const on = !!(this.state.added || {})[d.name]; return { ...d, isAdded: on, notAdded: !on, pressed: on ? 'true' : 'false', addLabel: on ? d.name + ' added to your order' : 'Quick add ' + d.name, addBg: on ? '#E0A458' : '#2B1A12', addFg: on ? '#2B1A12' : '#F7F0E4', add: () => this.setState({ added: { ...(this.state.added || {}), [d.name]: !on }, toast: !on ? d.name : null }) }; };
+const names = ['All', 'Coffee', 'Milk', 'Yakult', 'Soda', 'Tea'];
+const t = this.state.tab;
+return {
+tabs: names.map((n) => {
+const sel = n === t;
+return { label: n, count: n === 'All' ? items.length : items.filter((i) => i.series === n).length, sel: sel ? 'true' : 'false',
+bg: sel ? '#2B1A12' : '#FFFBF4', fg: sel ? '#F7F0E4' : '#2B1A12', bd: sel ? '#2B1A12' : '#D6C3A5',
+pick: () => this.setState({ tab: n }) };
+}),
+shown: (t === 'All' ? items : items.filter((i) => i.series === t)).map((d) => addFx({ ...d, noImg: !d.img, bg: d.img ? '#F7F0E4' : d.tint })),
+toast: !!this.state.toast, toastName: this.state.toast
+};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,646 @@
+{
+ "v": 3,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-11-17T07:12:05Z"
+ },
+ "title": "The Callroom by Dr. Coffee — Website",
+ "launch": {
+  "view": "canvas",
+  "page": "ds"
+ },
+ "pages": [
+  {
+   "id": "ds",
+   "name": "Design system"
+  },
+  {
+   "id": "desktop",
+   "name": "Desktop pages"
+  },
+  {
+   "id": "mobile",
+   "name": "Mobile pages"
+  },
+  {
+   "id": "parts",
+   "name": "Components & sections"
+  }
+ ],
+ "boards": {
+  "Main.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 3500,
+   "title": "Design system",
+   "page": "ds",
+   "expand": "fill"
+  },
+  "SiteHeader.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 76,
+   "title": "Header · desktop",
+   "page": "parts"
+  },
+  "MobileHeader.dc.html": {
+   "x": 1520,
+   "y": 0,
+   "w": 390,
+   "h": 64,
+   "title": "Header · mobile",
+   "page": "parts",
+   "is_interactive": true
+  },
+  "BottomNav.dc.html": {
+   "x": 1990,
+   "y": 0,
+   "w": 390,
+   "h": 76,
+   "title": "Bottom nav · mobile",
+   "page": "parts"
+  },
+  "SiteFooter.dc.html": {
+   "x": 2460,
+   "y": 0,
+   "w": 1440,
+   "h": 460,
+   "title": "Footer",
+   "page": "parts"
+  },
+  "CartDrawer.dc.html": {
+   "x": 3980,
+   "y": 0,
+   "w": 420,
+   "h": 844,
+   "title": "Cart drawer",
+   "page": "parts",
+   "is_interactive": true
+  },
+  "HomeBody.dc.html": {
+   "x": 0,
+   "y": 1300,
+   "w": 1440,
+   "h": 4900,
+   "title": "Home · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "MenuBody.dc.html": {
+   "x": 1520,
+   "y": 1300,
+   "w": 1440,
+   "h": 1700,
+   "title": "Menu · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "ProductBody.dc.html": {
+   "x": 3040,
+   "y": 1300,
+   "w": 1440,
+   "h": 1750,
+   "title": "Product detail · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "CartBody.dc.html": {
+   "x": 4560,
+   "y": 1300,
+   "w": 1440,
+   "h": 1150,
+   "title": "Cart · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "CheckoutBody.dc.html": {
+   "x": 6080,
+   "y": 1300,
+   "w": 1440,
+   "h": 1350,
+   "title": "Checkout · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "ConfirmationBody.dc.html": {
+   "x": 7600,
+   "y": 1300,
+   "w": 1440,
+   "h": 1150,
+   "title": "Order confirmation · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "EventsBody.dc.html": {
+   "x": 9120,
+   "y": 1300,
+   "w": 1440,
+   "h": 4600,
+   "title": "Coffee Cart & Events · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "AboutBody.dc.html": {
+   "x": 10640,
+   "y": 1300,
+   "w": 1440,
+   "h": 3000,
+   "title": "About · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "VisitBody.dc.html": {
+   "x": 12160,
+   "y": 1300,
+   "w": 1440,
+   "h": 1850,
+   "title": "Visit Us · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "FaqBody.dc.html": {
+   "x": 13680,
+   "y": 1300,
+   "w": 1440,
+   "h": 1500,
+   "title": "FAQ · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "BlogBody.dc.html": {
+   "x": 15200,
+   "y": 1300,
+   "w": 1440,
+   "h": 480,
+   "title": "Blog · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "ArticleBody.dc.html": {
+   "x": 16720,
+   "y": 1300,
+   "w": 1440,
+   "h": 1700,
+   "title": "Blog post template · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Home.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 5280,
+   "title": "Home · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Menu.dc.html": {
+   "x": 1520,
+   "y": 0,
+   "w": 1440,
+   "h": 2280,
+   "title": "Menu · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Product.dc.html": {
+   "x": 3040,
+   "y": 0,
+   "w": 1440,
+   "h": 1890,
+   "title": "Product detail · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Cart.dc.html": {
+   "x": 4560,
+   "y": 0,
+   "w": 1440,
+   "h": 1320,
+   "title": "Cart · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Checkout.dc.html": {
+   "x": 6080,
+   "y": 0,
+   "w": 1440,
+   "h": 1500,
+   "title": "Checkout · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Confirmation.dc.html": {
+   "x": 7600,
+   "y": 0,
+   "w": 1440,
+   "h": 1540,
+   "title": "Order confirmation · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Events.dc.html": {
+   "x": 9120,
+   "y": 0,
+   "w": 1440,
+   "h": 4810,
+   "title": "Coffee Cart & Events · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "About.dc.html": {
+   "x": 10640,
+   "y": 0,
+   "w": 1440,
+   "h": 3120,
+   "title": "About · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Visit.dc.html": {
+   "x": 12160,
+   "y": 0,
+   "w": 1440,
+   "h": 2510,
+   "title": "Visit Us · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Faq.dc.html": {
+   "x": 13680,
+   "y": 0,
+   "w": 1440,
+   "h": 1560,
+   "title": "FAQ · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Blog.dc.html": {
+   "x": 15200,
+   "y": 0,
+   "w": 1440,
+   "h": 975,
+   "title": "Blog · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Article.dc.html": {
+   "x": 16720,
+   "y": 0,
+   "w": 1440,
+   "h": 2060,
+   "title": "Blog post template · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Home-Mobile.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 390,
+   "h": 12560,
+   "title": "Home · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "Menu-Mobile.dc.html": {
+   "x": 470,
+   "y": 0,
+   "w": 390,
+   "h": 4860,
+   "title": "Menu · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "Product-Mobile.dc.html": {
+   "x": 940,
+   "y": 0,
+   "w": 390,
+   "h": 3300,
+   "title": "Product detail · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "Cart-Mobile.dc.html": {
+   "x": 1410,
+   "y": 0,
+   "w": 390,
+   "h": 2420,
+   "title": "Cart · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "Checkout-Mobile.dc.html": {
+   "x": 1880,
+   "y": 0,
+   "w": 390,
+   "h": 2430,
+   "title": "Checkout · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "Confirmation-Mobile.dc.html": {
+   "x": 2350,
+   "y": 0,
+   "w": 390,
+   "h": 2710,
+   "title": "Order confirmation · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "Events-Mobile.dc.html": {
+   "x": 2820,
+   "y": 0,
+   "w": 390,
+   "h": 9730,
+   "title": "Coffee Cart & Events · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "About-Mobile.dc.html": {
+   "x": 3290,
+   "y": 0,
+   "w": 390,
+   "h": 5430,
+   "title": "About · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "Visit-Mobile.dc.html": {
+   "x": 3760,
+   "y": 0,
+   "w": 390,
+   "h": 4470,
+   "title": "Visit Us · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "Faq-Mobile.dc.html": {
+   "x": 4230,
+   "y": 0,
+   "w": 390,
+   "h": 2700,
+   "title": "FAQ · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "Blog-Mobile.dc.html": {
+   "x": 4700,
+   "y": 0,
+   "w": 390,
+   "h": 1850,
+   "title": "Blog · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "Article-Mobile.dc.html": {
+   "x": 5170,
+   "y": 0,
+   "w": 390,
+   "h": 2350,
+   "title": "Blog post template · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "OurMenuBody.dc.html": {
+   "x": 18240,
+   "y": 1300,
+   "w": 1440,
+   "h": 3600,
+   "title": "Our Menu · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "OurMenu.dc.html": {
+   "x": 18240,
+   "y": 0,
+   "w": 1440,
+   "h": 4155,
+   "title": "Our Menu · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "OurMenu-Mobile.dc.html": {
+   "x": 5640,
+   "y": 0,
+   "w": 390,
+   "h": 5940,
+   "title": "Our Menu · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "NotFoundBody.dc.html": {
+   "x": 19760,
+   "y": 1300,
+   "w": 1440,
+   "h": 900,
+   "title": "404 · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "NotFound.dc.html": {
+   "x": 19760,
+   "y": 0,
+   "w": 1440,
+   "h": 1410,
+   "title": "404 · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "NotFound-Mobile.dc.html": {
+   "x": 6110,
+   "y": 0,
+   "w": 390,
+   "h": 2380,
+   "title": "404 · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "BookingBody.dc.html": {
+   "x": 21280,
+   "y": 1300,
+   "w": 1440,
+   "h": 1500,
+   "title": "Coffee Cart booking · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Booking.dc.html": {
+   "x": 21280,
+   "y": 0,
+   "w": 1440,
+   "h": 1930,
+   "title": "Coffee Cart booking · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Booking-Mobile.dc.html": {
+   "x": 6580,
+   "y": 0,
+   "w": 390,
+   "h": 3100,
+   "title": "Coffee Cart booking · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  },
+  "AccountBody.dc.html": {
+   "x": 22800,
+   "y": 1300,
+   "w": 1440,
+   "h": 1400,
+   "title": "My account · section",
+   "page": "parts",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Account.dc.html": {
+   "x": 22800,
+   "y": 0,
+   "w": 1440,
+   "h": 1400,
+   "title": "My account · desktop",
+   "page": "desktop",
+   "expand": "fill",
+   "is_interactive": true
+  },
+  "Account-Mobile.dc.html": {
+   "x": 7050,
+   "y": 0,
+   "w": 390,
+   "h": 2500,
+   "title": "My account · mobile",
+   "page": "mobile",
+   "is_interactive": true
+  }
+ },
+ "order": [
+  "Main.dc.html",
+  "SiteHeader.dc.html",
+  "MobileHeader.dc.html",
+  "BottomNav.dc.html",
+  "SiteFooter.dc.html",
+  "CartDrawer.dc.html",
+  "HomeBody.dc.html",
+  "MenuBody.dc.html",
+  "ProductBody.dc.html",
+  "CartBody.dc.html",
+  "CheckoutBody.dc.html",
+  "ConfirmationBody.dc.html",
+  "EventsBody.dc.html",
+  "AboutBody.dc.html",
+  "VisitBody.dc.html",
+  "FaqBody.dc.html",
+  "BlogBody.dc.html",
+  "ArticleBody.dc.html",
+  "Home.dc.html",
+  "Menu.dc.html",
+  "Product.dc.html",
+  "Cart.dc.html",
+  "Checkout.dc.html",
+  "Confirmation.dc.html",
+  "Events.dc.html",
+  "About.dc.html",
+  "Visit.dc.html",
+  "Faq.dc.html",
+  "Blog.dc.html",
+  "Article.dc.html",
+  "Home-Mobile.dc.html",
+  "Menu-Mobile.dc.html",
+  "Product-Mobile.dc.html",
+  "Cart-Mobile.dc.html",
+  "Checkout-Mobile.dc.html",
+  "Confirmation-Mobile.dc.html",
+  "Events-Mobile.dc.html",
+  "About-Mobile.dc.html",
+  "Visit-Mobile.dc.html",
+  "Faq-Mobile.dc.html",
+  "Blog-Mobile.dc.html",
+  "Article-Mobile.dc.html",
+  "OurMenuBody.dc.html",
+  "OurMenu.dc.html",
+  "OurMenu-Mobile.dc.html",
+  "NotFoundBody.dc.html",
+  "NotFound.dc.html",
+  "NotFound-Mobile.dc.html",
+  "BookingBody.dc.html",
+  "Booking.dc.html",
+  "Booking-Mobile.dc.html",
+  "AccountBody.dc.html",
+  "Account.dc.html",
+  "Account-Mobile.dc.html"
+ ],
+ "notes": {
+  "t-desk": {
+   "x": 0,
+   "y": -300,
+   "text": "Desktop · 1440",
+   "kind": "title1",
+   "maxW": 24300,
+   "page": "desktop"
+  },
+  "t-mob": {
+   "x": 0,
+   "y": -300,
+   "text": "Mobile · 390",
+   "kind": "title1",
+   "maxW": 7500,
+   "page": "mobile"
+  },
+  "t-comp": {
+   "x": 0,
+   "y": -300,
+   "text": "Global components",
+   "kind": "title1",
+   "maxW": 4000,
+   "page": "parts"
+  },
+  "t-sec": {
+   "x": 0,
+   "y": 1000,
+   "text": "Page sections (imported into the desktop and mobile frames)",
+   "kind": "title1",
+   "maxW": 24300,
+   "page": "parts"
+  },
+  "n-build": {
+   "x": -560,
+   "y": 0,
+   "w": 440,
+   "text": "Build notes: each page = Layout (header + footer) + a section file. Section files map to Astro pages; header, footer, bottom nav and cart drawer map to layout components (cart/nav as React islands). Tokens on the Design system page map to Tailwind v4 @theme.",
+   "page": "parts",
+   "fill": "teal"
+  }
+ },
+ "designSystems": []
+}

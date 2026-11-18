@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Design system — The Callroom by Dr. Coffee</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=DM+Sans:opsz,wght@9..40,400..700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F7F0E4}
+a{color:#8A4F17}a:hover{color:#2B1A12}
+</style>
+</helmet>
+<div style="width: 100%; background: #F7F0E4; font-family: 'DM Sans', system-ui, sans-serif; color: #2B1A12; padding: clamp(32px, 5vw, 72px) clamp(20px, 5vw, 64px); box-sizing: border-box">
+<div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 72px">
+
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; border-bottom: 2px solid #2B1A12; padding-bottom: 28px">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: center; gap: 14px">
+<img src="/_blob/e5b1d1cc6559e8afd24ff481a39c89ce" alt="" style="width: 72px; height: 72px; border-radius: 999px; display: block; flex: none">
+<div style="display: flex; flex-direction: column">
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px; letter-spacing: -0.02em; line-height: 1">The Callroom</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; margin-top: 4px">by Dr. Coffee</span>
+</div>
+</div>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(40px, 6vw, 72px); letter-spacing: -0.03em; line-height: 1">Design system</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #5A3A28; max-width: 640px">Warm espresso, cream and caramel, with a calm scrub-teal accent and prescription-label details. Built mobile-first for Tailwind v4.</p>
+</div>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.8; color: #5A3A28; border: 1px dashed #B79C7A; padding: 14px 18px; border-radius: 12px; background: #FFFBF4">
+<div>Rx No. CR-DS-01</div>
+<div>Patient: callroomcoffee.com</div>
+<div>Sig: one bean, done properly.</div>
+</div>
+</header>
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">01 · Color</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.02em">Palette</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px">
+<sc-for list="{{colors}}" as="c" hint-placeholder-count="10">
+<div style="border-radius: 16px; overflow: hidden; border: 1px solid #E3D5BF; background: #FFFBF4">
+<div style="height: 112px; background: {{c.hex}}; display: flex; align-items: flex-end; padding: 12px; box-sizing: border-box; color: {{c.on}}; font-family: 'IBM Plex Mono', monospace; font-size: 12px">Aa {{c.ratio}}</div>
+<div style="padding: 12px 14px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-weight: 700; font-size: 15px">{{c.name}}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A3A28">{{c.hex}} · {{c.token}}</span>
+<span style="font-size: 13px; color: #5A3A28; line-height: 1.4">{{c.use}}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">02 · Type</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.02em">Type scale</h2>
+<p style="margin: 0; color: #5A3A28; font-size: 16px">Bricolage Grotesque for display · DM Sans for body · IBM Plex Mono for labels, Rx details and prices.</p>
+</div>
+<div style="display: flex; flex-direction: column; background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 20px">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 32px; padding: 22px 28px; border-bottom: 1px solid #EFE4D2">
+<span style="width: 150px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A3A28">Display · 76/72 · 800</span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(40px, 5.4vw, 76px); letter-spacing: -0.03em; line-height: 1">Brewed Fresh from 6AM</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 32px; padding: 22px 28px; border-bottom: 1px solid #EFE4D2">
+<span style="width: 150px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A3A28">H2 · 48/52 · 700</span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: clamp(30px, 4vw, 48px); letter-spacing: -0.02em; line-height: 1.08">What Goes Into Every Cup</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 32px; padding: 22px 28px; border-bottom: 1px solid #EFE4D2">
+<span style="width: 150px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A3A28">H3 · 24/30 · 700</span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.01em">Spanish Stimu-Latte</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 32px; padding: 22px 28px; border-bottom: 1px solid #EFE4D2">
+<span style="width: 150px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A3A28">Body L · 18/29</span>
+<span style="font-size: 18px; line-height: 1.6; color: #5A3A28; max-width: 680px">No shortcuts and no powdered mixes. Every drink is pulled to order from 100% Arabica.</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 32px; padding: 22px 28px; border-bottom: 1px solid #EFE4D2">
+<span style="width: 150px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A3A28">Body · 16/26</span>
+<span style="font-size: 16px; line-height: 1.6; color: #5A3A28; max-width: 680px">Order ahead and pick up at the 2nd floor kiosk, Madonna Hospital.</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 32px; padding: 22px 28px">
+<span style="width: 150px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A3A28">Label · 12 mono caps</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">Rx · Milk series · ₱145–170</span>
+</div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">03 · Actions</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.02em">Buttons</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 20px; padding: 28px">
+<a href="Menu.dc.html" style="display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px; background: #2B1A12; color: #F7F0E4; font-weight: 700; font-size: 16px; text-decoration: none">Order Ahead
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+<a href="Events.dc.html" style="display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px; background: #2F6F6A; color: #FFFFFF; font-weight: 700; font-size: 16px; text-decoration: none">Book the Coffee Cart</a>
+<a href="Visit.dc.html" style="display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 24px; border-radius: 999px; border: 1.5px solid #2B1A12; color: #2B1A12; font-weight: 700; font-size: 16px; text-decoration: none">Find the kiosk</a>
+<button type="button" style="display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px; border: none; background: #E0A458; color: #2B1A12; font-weight: 700; font-size: 16px; font-family: inherit; cursor: pointer">Add to order · ₱170</button>
+<button type="button" style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: none; background: transparent; color: #8A4F17; font-weight: 700; font-size: 15px; font-family: inherit; text-decoration: underline; text-underline-offset: 4px; cursor: pointer">Text link</button>
+<button type="button" aria-label="Quick add" style="width: 44px; height: 44px; border-radius: 999px; border: none; background: #2B1A12; color: #F7F0E4; display: inline-flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+<button type="button" disabled style="min-height: 52px; padding: 0 26px; border-radius: 999px; border: none; background: #E3D5BF; color: #7A624C; font-weight: 700; font-size: 16px; font-family: inherit">Disabled</button>
+</div>
+<p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A3A28">Primary = espresso · Secondary = scrub teal (events) · Accent = caramel (add to cart) · All targets ≥ 44px · Focus ring: 3px #2F6F6A at 2px offset</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">04 · Status</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.02em">Badges &amp; pills</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 20px; padding: 28px">
+<span style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: #DCEBE8; color: #1F4F4B; font-weight: 600; font-size: 14px"><span style="width: 8px; height: 8px; border-radius: 999px; background: #2F8F6A"></span>Open now · until 6PM</span>
+<span style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: #F3DCD3; color: #7A2E1C; font-weight: 600; font-size: 14px"><span style="width: 8px; height: 8px; border-radius: 999px; background: #B5432A"></span>Closed · opens 6AM</span>
+<span style="padding: 6px 12px; border-radius: 6px; background: #2B1A12; color: #F7F0E4; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase">Coffee</span>
+<span style="padding: 6px 12px; border-radius: 6px; background: #F1E3CC; color: #6B3F14; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase">Milk</span>
+<span style="padding: 6px 12px; border-radius: 6px; background: #FBE7E1; color: #8A2F22; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase">Yakult</span>
+<span style="padding: 6px 12px; border-radius: 6px; background: #DCEBE8; color: #1F4F4B; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase">Soda</span>
+<span style="padding: 6px 12px; border-radius: 6px; background: #EFE4D2; color: #5A3A28; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase">Pastries</span>
+<span style="padding: 6px 12px; border-radius: 999px; background: #E0A458; color: #2B1A12; font-weight: 700; font-size: 13px">Staff favourite</span>
+<span style="padding: 6px 12px; border-radius: 999px; border: 1.5px dashed #2F6F6A; color: #1F4F4B; font-weight: 700; font-size: 13px">Ready in ~10 min</span>
+<span style="min-width: 22px; height: 22px; padding: 0 6px; box-sizing: border-box; border-radius: 999px; background: #E0A458; color: #2B1A12; font-weight: 800; font-size: 12px; display: inline-flex; align-items: center; justify-content: center">3</span>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">05 · Forms</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.02em">Form fields</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 20px; padding: 28px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="ds-name" style="font-weight: 700; font-size: 14px">Full name</label>
+<input id="ds-name" type="text" value="Dr. Ana Reyes" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px; color: #2B1A12">
+<span style="font-size: 13px; color: #5A3A28">We'll call your name at pickup.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="ds-phone" style="font-weight: 700; font-size: 14px">Mobile number</label>
+<input id="ds-phone" type="tel" value="0917" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 2px solid #B5432A; background: #FFFFFF; font-family: inherit; font-size: 16px; color: #2B1A12">
+<span style="font-size: 13px; color: #9A3520; font-weight: 600">Enter an 11-digit mobile number.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="ds-type" style="font-weight: 700; font-size: 14px">Event type</label>
+<select id="ds-type" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px; color: #2B1A12">
+<option>Hospital event</option><option>Birthday</option><option>Wedding</option><option>Debut</option><option>Office launch</option>
+</select>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="ds-msg" style="font-weight: 700; font-size: 14px">Message</label>
+<textarea id="ds-msg" rows="3" style="padding: 14px 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px; color: #2B1A12; resize: vertical">Night-shift appreciation for 80 nurses.</textarea>
+</div>
+<fieldset style="border: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+<legend style="font-weight: 700; font-size: 14px; margin-bottom: 10px">Size</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<label style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; background: #2B1A12; color: #F7F0E4; font-weight: 700; font-size: 15px"><input type="radio" name="ds-size" checked style="position: absolute; opacity: 0; width: 1px; height: 1px">Regular</label>
+<label style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-weight: 600; font-size: 15px"><input type="radio" name="ds-size" style="position: absolute; opacity: 0; width: 1px; height: 1px">Large</label>
+</div>
+</fieldset>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<label style="display: flex; align-items: center; gap: 12px; font-size: 15px; min-height: 44px"><input type="checkbox" checked style="width: 22px; height: 22px; accent-color: #2F6F6A">Text me when my order is ready</label>
+<label style="display: flex; align-items: center; gap: 12px; font-size: 15px; min-height: 44px"><input type="radio" name="ds-pay" checked style="width: 22px; height: 22px; accent-color: #2F6F6A">GCash</label>
+</div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">06 · Cards</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.02em">Cards</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; align-items: start">
+
+<article style="background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column">
+<div style="display: flex; justify-content: space-between; padding: 10px 16px; border-bottom: 1px dashed #D6C3A5; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A3A28"><span>Rx · Milk</span><span>No. 01</span></div>
+<div style="aspect-ratio: 4 / 3; background: #F7F0E4"><img src="/_blob/bb898aeb29040eac7b6018dfe6f3a609" alt="Caramel Milk Therapy" style="width: 100%; height: 100%; object-fit: cover; display: block;object-fit: contain"></div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 20px">Caramel Milk Therapy</h3>
+<p style="margin: 0; font-size: 14px; color: #5A3A28; line-height: 1.5"><span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600">Sig:</span> fresh milk, house caramel, served cold.</p>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 16px">₱145–170</span>
+<button type="button" aria-label="Quick add Caramel Milk Therapy" style="width: 44px; height: 44px; border-radius: 999px; border: none; background: #2B1A12; color: #F7F0E4; display: inline-flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+</div>
+</div>
+</article>
+
+<article style="background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<div style="width: 48px; height: 48px; border-radius: 14px; background: #DCEBE8; color: #1F4F4B; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></div>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 20px">Made For Long Shifts</h3>
+<p style="margin: 0; font-size: 15px; color: #5A3A28; line-height: 1.55">Open from 6AM, twelve hours a day, a few steps from the wards.</p>
+</article>
+
+<article style="background: #2B1A12; color: #F7F0E4; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 14px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #E0A458">Package · 02</span>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px">Full Shift</h3>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600">₱[YOUR PRICE]</span>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 15px; color: #EADBC4">
+<li>· Full barista team</li><li>· Custom menu</li><li>· Branded cups</li>
+</ul>
+</article>
+
+</div>
+</section>
+
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">07 · Space &amp; shape</span>
+<div style="display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap">
+<sc-for list="{{space}}" as="s" hint-placeholder-count="7">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+<div style="width: {{s.px}}; height: {{s.px}}; background: #E0A458; border-radius: 4px"></div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A3A28">{{s.label}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; gap: 16px; flex-wrap: wrap">
+<div style="width: 80px; height: 64px; border: 1.5px solid #2B1A12; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px">6 tag</div>
+<div style="width: 80px; height: 64px; border: 1.5px solid #2B1A12; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px">12 field</div>
+<div style="width: 80px; height: 64px; border: 1.5px solid #2B1A12; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px">20 card</div>
+<div style="width: 80px; height: 64px; border: 1.5px solid #2B1A12; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px">pill</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">08 · Tailwind v4 tokens</span>
+<pre style="margin: 0; background: #2B1A12; color: #EADBC4; border-radius: 16px; padding: 20px 22px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.7; overflow-x: auto; white-space: pre">@theme {
+  --color-espresso: #2B1A12;
+  --color-roast: #5A3A28;
+  --color-caramel: #E0A458;
+  --color-caramel-ink: #8A4F17;
+  --color-cream: #F7F0E4;
+  --color-paper: #FFFBF4;
+  --color-foam: #EFE4D2;
+  --color-scrub: #2F6F6A;
+  --color-scrub-50: #DCEBE8;
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --radius-card: 20px;
+}</pre>
+</div>
+</section>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3500}}'>
+class Component extends DCLogic {
+renderVals() {
+return {
+colors: [
+{ name: 'Espresso', hex: '#2B1A12', token: 'espresso', on: '#F7F0E4', ratio: '15:1', use: 'Text, primary buttons, dark bands' },
+{ name: 'Roast', hex: '#5A3A28', token: 'roast', on: '#F7F0E4', ratio: '9:1', use: 'Body copy, secondary text' },
+{ name: 'Caramel', hex: '#E0A458', token: 'caramel', on: '#2B1A12', ratio: '7.6:1', use: 'Add-to-cart, highlights (fill only)' },
+{ name: 'Caramel ink', hex: '#8A4F17', token: 'caramel-ink', on: '#FFFFFF', ratio: '6:1', use: 'Links and caramel text on cream' },
+{ name: 'Cream', hex: '#F7F0E4', token: 'cream', on: '#2B1A12', ratio: '15:1', use: 'Page background' },
+{ name: 'Paper', hex: '#FFFBF4', token: 'paper', on: '#2B1A12', ratio: '16:1', use: 'Cards, Rx labels' },
+{ name: 'Foam', hex: '#EFE4D2', token: 'foam', on: '#2B1A12', ratio: '13:1', use: 'Alt sections, dividers' },
+{ name: 'Scrub teal', hex: '#2F6F6A', token: 'scrub', on: '#FFFFFF', ratio: '5.9:1', use: 'Events CTA, labels, focus' },
+{ name: 'Scrub 50', hex: '#DCEBE8', token: 'scrub-50', on: '#1F4F4B', ratio: '7.5:1', use: 'Open pill, tints' },
+{ name: 'Alert', hex: '#B5432A', token: 'alert', on: '#FFFFFF', ratio: '5.3:1', use: 'Errors, closed state' }
+],
+space: [
+{ px: '4px', label: '4' }, { px: '8px', label: '8' }, { px: '12px', label: '12' }, { px: '16px', label: '16' },
+{ px: '24px', label: '24' }, { px: '32px', label: '32' }, { px: '48px', label: '48' }, { px: '64px', label: '64' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

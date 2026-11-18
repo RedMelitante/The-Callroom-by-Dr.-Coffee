@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BookingBody from '../components/design/BookingBody.jsx';
+
+---
+
+<BaseLayout title="Coffee Cart booking" active="Events" description="Book The Callroom coffee cart for your event in Cagayan de Oro. Choose a date and package and we will send your quote with a draft menu." image="/images/team-at-cart.webp">
+  <BookingBody client:load />
+</BaseLayout>

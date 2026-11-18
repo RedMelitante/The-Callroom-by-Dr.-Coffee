@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Book the Coffee Cart — The Callroom</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=DM+Sans:opsz,wght@9..40,400..700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; font-family: 'DM Sans', system-ui, sans-serif; color: #2B1A12; background: #F7F0E4; padding: clamp(28px, 5vw, 72px) clamp(20px, 4vw, 40px) clamp(56px, 7vw, 96px); box-sizing: border-box">
+<div style="max-width: 1240px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: clamp(28px, 4vw, 56px); align-items: flex-start">
+
+<div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<nav aria-label="Breadcrumb" style="font-size: 14px; display: flex; gap: 8px"><a href="Events.dc.html" style="color: #8A4F17">Coffee Cart &amp; Events</a><span aria-hidden="true">/</span><span style="color: #5A3A28">Book</span></nav>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">Coffee cart booking</span>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(40px, 5.4vw, 68px); letter-spacing: -0.035em; line-height: 1">Let's Brew Something Special Together!</h1>
+<p style="margin: 0; font-size: 17px; line-height: 1.65; color: #5A3A28">Great celebrations deserve great coffee! Bring the Dr. Coffee experience to your next event with freshly brewed Arabica coffee, professional baristas, and a coffee cart your guests will love.</p>
+<p style="margin: 0; font-size: 17px; line-height: 1.65; color: #5A3A28">Whether it's a wedding, birthday, corporate event, or private gathering, we're ready to serve your daily dose of happiness.</p>
+<p style="margin: 0; font-size: 17px; line-height: 1.65; color: #2B1A12; font-style: italic">Your perfect coffee experience starts here. Fill out the form to book!</p>
+<div style="border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 3; background: #E2D1B6; margin-top: 6px"><img src="../assets/images/team-at-cart.webp" alt="The Dr. Coffee cart team at an outdoor event" style="width: 100%; height: 100%; object-fit: cover; object-position: center 35%; display: block"></div>
+<div style="display: flex; flex-direction: column; gap: 10px; padding: 18px 20px; border-radius: 18px; border: 1.5px dashed #B79C7A; background: #FFFBF4">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">What happens next</span>
+<span style="font-size: 15px; line-height: 1.5"><strong>We send a quote</strong> with recommended packages and a draft menu.</span>
+<span style="font-size: 15px; line-height: 1.5"><strong>We finalise your menu</strong> and design your menu board and cup labels.</span>
+<span style="font-size: 15px; line-height: 1.5"><strong>We arrive early</strong>, set up, and serve. You don't lift a thing.</span>
+</div>
+<p style="margin: 0; font-size: 14px; color: #5A3A28">Prefer to talk? Call <a href="tel:09327233849" style="color: #8A4F17; font-weight: 700">0932 723 3849</a> or <a href="https://www.facebook.com/share/19KisJPYkX/" style="color: #8A4F17; font-weight: 700">message us on Messenger</a>.</p>
+</div>
+
+<div style="flex: 1.2 1 480px; min-width: 0; background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 28px; overflow: hidden">
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; background: #2B1A12; color: #F7F0E4; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase"><span>Book our coffee cart</span><span>{{stepLabel}}</span></div>
+<ol aria-label="Booking steps" style="list-style: none; margin: 0; padding: 18px 24px 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="4">
+<li style="display: flex; flex-direction: column; gap: 6px"><span style="height: 6px; border-radius: 999px; background: {{s.bar}}"></span><span style="font-size: 13px; font-weight: 700; color: {{s.fg}}">{{s.label}}</span></li>
+</sc-for>
+</ol>
+
+<div style="padding: clamp(20px, 3vw, 32px) 24px; display: flex; flex-direction: column; gap: 22px">
+
+<sc-if value="{{s1}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-date" style="font-weight: 700; font-size: 15px">Event date</label><input id="bk-date" type="date" value="2026-12-12" style="min-height: 52px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px; color: #2B1A12"></div>
+<fieldset style="border: none; margin: 0; padding: 0"><legend style="font-weight: 700; font-size: 15px; margin-bottom: 10px">Morning or afternoon/evening?</legend>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<sc-for list="{{sessions}}" as="o" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{o.sel}}" onClick="{{o.pick}}" style="min-height: 64px; border-radius: 16px; border: 2px solid {{o.bd}}; background: {{o.bg}}; color: {{o.fg}}; font-family: inherit; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px"><span>{{o.label}}</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; opacity: 0.8">{{o.note}}</span></button>
+</sc-for>
+</div>
+</fieldset>
+<sc-if value="{{checked}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-radius: 14px; background: #DCEBE8; color: #1F4F4B; font-size: 15px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span><strong>Good news, the cart is free.</strong> Sat, 12 Dec 2026 · {{sessionLabel}}. Continue to send your request.</span></div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{s2}}" hint-placeholder-val="{{ false }}">
+<fieldset style="border: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px">
+<legend style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px; margin-bottom: 4px">Choose a package</legend>
+<sc-for list="{{pkgs}}" as="p" hint-placeholder-count="4">
+<button type="button" aria-pressed="{{p.sel}}" onClick="{{p.pick}}" style="width: 100%; min-height: 76px; padding: 14px 18px; border-radius: 16px; border: 2px solid {{p.bd}}; background: {{p.bg}}; color: #2B1A12; font-family: inherit; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 12px; cursor: pointer">
+<span style="display: flex; flex-direction: column; gap: 3px"><span style="font-weight: 800; font-size: 17px">{{p.name}}</span><span style="font-size: 13px; color: #5A3A28">{{p.note}}</span></span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 17px; white-space: nowrap">{{p.price}}</span>
+</button>
+</sc-for>
+<a href="Events.dc.html#packages" style="align-self: flex-start; font-weight: 700; font-size: 14px; color: #8A4F17; min-height: 40px; display: inline-flex; align-items: center">Compare what's in each package</a>
+</fieldset>
+</sc-if>
+
+<sc-if value="{{s3}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px">About your event</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-type" style="font-weight: 700; font-size: 14px">Event type</label><select id="bk-type" style="min-height: 50px; padding: 0 14px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px; color: #2B1A12"><option>Birthday or debut</option><option>Wedding</option><option>Hospital or clinic event</option><option>Corporate or office</option><option>Christening or reunion</option><option>Other</option></select></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-guests" style="font-weight: 700; font-size: 14px">Guest count</label><input id="bk-guests" type="number" min="1" value="80" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 8px; grid-column: 1 / -1"><label for="bk-venue" style="font-weight: 700; font-size: 14px">Venue</label><input id="bk-venue" type="text" placeholder="Venue name and area in CDO" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-start" style="font-weight: 700; font-size: 14px">Service starts</label><input id="bk-start" type="time" value="15:00" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-end" style="font-weight: 700; font-size: 14px">Service ends</label><input id="bk-end" type="time" value="18:00" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 8px; grid-column: 1 / -1"><label for="bk-theme" style="font-weight: 700; font-size: 14px">Theme or notes <span style="font-weight: 500; color: #5A3A28">(for your menu board and cup labels)</span></label><textarea id="bk-theme" rows="3" placeholder="Names, colours, hashtag, drinks you'd like" style="padding: 14px 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px; resize: vertical"></textarea></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{s4}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px">Your contact details</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 8px; grid-column: 1 / -1"><label for="bk-name" style="font-weight: 700; font-size: 14px">Full name</label><input id="bk-name" type="text" autocomplete="name" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-phone" style="font-weight: 700; font-size: 14px">Mobile number</label><input id="bk-phone" type="tel" autocomplete="tel" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-email" style="font-weight: 700; font-size: 14px">Email</label><input id="bk-email" type="email" autocomplete="email" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px"></div>
+</div>
+<div style="padding: 16px 18px; border-radius: 16px; background: #F7F0E4; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; font-size: 14px">
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #5A3A28">Date</span><strong>Sat, 12 Dec · {{sessionShort}}</strong></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #5A3A28">Package</span><strong>{{pkgName}}</strong></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #5A3A28">Guests</span><strong>80</strong></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{done}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 8px 0">
+<span style="width: 56px; height: 56px; border-radius: 999px; background: #2F6F6A; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em">Booking request sent</h2>
+<p style="margin: 0; font-size: 16px; line-height: 1.6; color: #5A3A28">Thank you! We'll send your quote with recommended packages and a draft menu. Your requested date: <strong style="color: #2B1A12">Sat, 12 Dec 2026 · {{sessionShort}}</strong>.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px"><a href="Events.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; border-radius: 999px; background: #2B1A12; color: #F7F0E4; font-weight: 700; text-decoration: none">Back to Coffee Cart</a><a href="Account.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; border-radius: 999px; border: 1.5px solid #2B1A12; color: #2B1A12; font-weight: 700; text-decoration: none">View in my account</a></div>
+</div>
+</sc-if>
+
+<sc-if value="{{showNav}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; padding-top: 18px; border-top: 1px solid #E3D5BF">
+<sc-if value="{{canBack}}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{back}}" style="min-height: 52px; padding: 0 22px; border-radius: 999px; border: 1.5px solid #2B1A12; background: transparent; color: #2B1A12; font-family: inherit; font-weight: 700; font-size: 16px; cursor: pointer">Back</button></sc-if>
+<sc-if value="{{noBack}}" hint-placeholder-val="{{ true }}"><span></span></sc-if>
+<button type="button" onClick="{{next}}" style="min-height: 54px; padding: 0 28px; border-radius: 999px; border: none; background: {{nextBg}}; color: {{nextFg}}; font-family: inherit; font-weight: 800; font-size: 16px; cursor: pointer">{{nextLabel}}</button>
+</div>
+</sc-if>
+
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { step: 1, session: 'PM', checked: false, pkg: 'full' }; }
+renderVals() {
+const s = this.state;
+const labels = ['Date', 'Package', 'Event', 'Contact'];
+const pill = (sel) => ({ sel: sel ? 'true' : 'false', bg: sel ? '#2B1A12' : '#FFFFFF', fg: sel ? '#F7F0E4' : '#2B1A12', bd: sel ? '#2B1A12' : '#D6C3A5' });
+const pk = [
+{ id: 'light', name: 'The Light Dose', note: '50 cups · intimate gatherings', price: '₱8,000' },
+{ id: 'full', name: 'The Full Prescription', note: '80 cups · mid-sized events', price: '₱12,000' },
+{ id: 'emergency', name: 'The Emergency Brew Kit', note: '120 cups · large parties', price: '₱18,000' },
+{ id: 'unsure', name: 'Not sure yet', note: 'Send me a recommendation with my quote', price: '' }
+];
+let nextLabel = 'Continue';
+if (s.step === 1 && !s.checked) nextLabel = 'Check Availability';
+if (s.step === 4) nextLabel = 'Send booking request';
+const sess = { AM: 'Morning (AM)', PM: 'Afternoon / Evening (PM)' };
+return {
+stepLabel: s.step > 4 ? 'Sent' : 'Step ' + s.step + ' of 4',
+steps: labels.map((l, i) => ({ label: l, bar: i + 1 <= s.step ? '#2F6F6A' : '#E3D5BF', fg: i + 1 === s.step ? '#2B1A12' : '#5A3A28' })),
+s1: s.step === 1, s2: s.step === 2, s3: s.step === 3, s4: s.step === 4, done: s.step === 5, showNav: s.step < 5,
+sessions: [{ id: 'AM', label: 'Morning (AM)', note: 'AM' }, { id: 'PM', label: 'Afternoon / Evening (PM)', note: 'PM' }].map((o) => ({ ...pill(o.id === s.session), ...o, pick: () => this.setState({ session: o.id, checked: false }) })),
+checked: s.checked, sessionLabel: sess[s.session], sessionShort: s.session,
+pkgs: pk.map((p) => { const sel = p.id === s.pkg; return { ...p, sel: sel ? 'true' : 'false', bg: sel ? '#F1E3CC' : '#FFFFFF', bd: sel ? '#2B1A12' : '#D6C3A5', pick: () => this.setState({ pkg: p.id }) }; }),
+pkgName: pk.find((p) => p.id === s.pkg).name,
+canBack: s.step > 1, noBack: s.step === 1,
+nextLabel, nextBg: s.step === 4 ? '#E0A458' : '#2B1A12', nextFg: s.step === 4 ? '#2B1A12' : '#F7F0E4',
+next: () => { if (s.step === 1 && !s.checked) this.setState({ checked: true }); else this.setState({ step: s.step + 1 }); },
+back: () => this.setState({ step: Math.max(1, s.step - 1) })
+};
+}
+}
+</script>
+</body>
+</html>

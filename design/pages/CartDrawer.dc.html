@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cart drawer — The Callroom</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=DM+Sans:opsz,wght@9..40,400..700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<aside aria-label="Your order" style="width: 420px; height: 844px; box-sizing: border-box; background: #F7F0E4; display: flex; flex-direction: column; font-family: 'DM Sans', system-ui, sans-serif; color: #2B1A12; border-left: 1px solid #E3D5BF">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid #E3D5BF">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px">Your order</h2>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A3A28">{{count}} items · pickup at the 2nd floor kiosk</span>
+</div>
+<a href="Menu.dc.html" aria-label="Close cart" style="width: 44px; height: 44px; box-sizing: border-box; border-radius: 999px; border: 1.5px solid #D6C3A5; background: transparent; color: #2B1A12; display: inline-flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></a>
+</div>
+<div style="flex: 1 1 auto; overflow-y: auto; padding: 8px 24px; display: flex; flex-direction: column">
+<sc-for list="{{items}}" as="i" hint-placeholder-count="2">
+<div style="display: flex; gap: 14px; padding: 18px 0; border-bottom: 1px dashed #D6C3A5">
+<div style="width: 76px; height: 76px; border-radius: 14px; background: #FFFBF4; border: 1px solid #E3D5BF; overflow: hidden; flex: none"><img src="{{i.img}}" alt="" style="width: 100%; height: 100%; object-fit: contain; display: block"></div>
+<div style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 4px; min-width: 0">
+<div style="display: flex; justify-content: space-between; gap: 8px"><span style="font-weight: 700; font-size: 16px">{{i.name}}</span><span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600">{{i.price}}</span></div>
+<span style="font-size: 13px; color: #5A3A28">{{i.opts}}</span>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px">
+<div style="display: inline-flex; align-items: center; border: 1.5px solid #D6C3A5; border-radius: 999px; background: #FFFFFF">
+<button type="button" aria-label="Decrease quantity" onClick="{{i.dec}}" style="width: 40px; height: 40px; border: none; background: transparent; color: #2B1A12; font-size: 18px; font-weight: 700">−</button>
+<span style="min-width: 24px; text-align: center; font-weight: 700">{{i.qty}}</span>
+<button type="button" aria-label="Increase quantity" onClick="{{i.inc}}" style="width: 40px; height: 40px; border: none; background: transparent; color: #2B1A12; font-size: 18px; font-weight: 700">+</button>
+</div>
+<button type="button" onClick="{{i.remove}}" style="min-height: 40px; border: none; background: transparent; color: #8A4F17; font-family: inherit; font-size: 14px; font-weight: 700; text-decoration: underline; cursor: pointer">Remove</button>
+</div>
+</div>
+</div>
+</sc-for>
+<div style="margin-top: 18px; padding: 14px 16px; border-radius: 14px; background: #DCEBE8; color: #1F4F4B; font-size: 14px; line-height: 1.5; display: flex; gap: 10px; align-items: flex-start">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 1px"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+<span>Earliest pickup today: <strong>2:40 PM</strong>. You'll choose your time at checkout.</span>
+</div>
+</div>
+<div style="padding: 20px 24px 24px; border-top: 1px solid #E3D5BF; background: #FFFBF4; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; font-size: 16px"><span>Subtotal</span><span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 18px">{{subtotal}}</span></div>
+<a href="Checkout.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 54px; border-radius: 999px; background: #2B1A12; color: #F7F0E4; font-weight: 700; font-size: 16px; text-decoration: none">Checkout · pickup</a>
+<a href="Cart.dc.html" style="text-align: center; font-weight: 700; font-size: 15px; color: #8A4F17">View full cart</a>
+</div>
+</aside>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":420,"height":844}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { q: [1, 1] }; }
+renderVals() {
+const base = [
+{ img: '../assets/images/caramel-milk-therapy.webp', name: 'Caramel Milk Therapy', unit: 170, opts: 'Large · 50% sugar · Regular ice' },
+{ img: '../assets/images/spanish-stimu-latte.webp', name: 'Spanish Stimu-Latte', unit: 190, opts: 'Large · 75% sugar · Less ice' }
+];
+const q = this.state.q;
+const set = (i, v) => { const n = q.slice(); n[i] = Math.max(0, v); this.setState({ q: n }); };
+const items = base.map((b, i) => ({ ...b, qty: q[i], price: '₱' + b.unit * q[i], inc: () => set(i, q[i] + 1), dec: () => set(i, q[i] - 1), remove: () => set(i, 0) })).filter((i) => i.qty > 0);
+return { items, count: items.reduce((a, i) => a + i.qty, 0), subtotal: '₱' + items.reduce((a, i) => a + i.unit * i.qty, 0) };
+}
+}
+</script>
+</body>
+</html>

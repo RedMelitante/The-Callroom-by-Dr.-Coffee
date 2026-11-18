@@ -1,0 +1,115 @@
+// Generated from the Claude Design component VisitBody.dc.html; markup and styles kept verbatim.
+import { Fragment } from 'preact';
+import { DCLogic } from '../../lib/dc.js';
+import { todayName } from '../../lib/hours.js';
+import { KIOSK_LANDMARK } from '../../lib/site.js';
+
+class Logic extends DCLogic {
+componentDidMount() { this.setState({ today: todayName() }); }
+renderVals() {
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const today = this.state.today;
+return {
+hours: days.map((d) => ({ d: d === today ? d + ' · today' : d, t: d === 'Sunday' ? 'Closed' : '6:00 AM – 6:00 PM', bg: d === today ? '#3A261B' : 'transparent', fg: d === 'Sunday' ? '#B8A28A' : '#F7F0E4', w: d === today ? '700' : '400' })),
+steps: [
+{ n: '1', t: 'Enter from JV Serina St', b: 'Come in through the main hospital entrance.' },
+{ n: '2', t: 'Head up to the 2nd floor', b: 'Head up from the main lobby. You’ll smell us before you see us.' },
+{ n: '3', t: 'Look for the kiosk', b: (KIOSK_LANDMARK ? `We are ${KIOSK_LANDMARK}. ` : '') + 'Walk-ins welcome, no appointment needed.' },
+{ n: '4', t: 'Order at the counter', b: 'Give us a few minutes. Ordered ahead? Give your name or order number.' }
+].map((s, i, arr) => ({ ...s, i1: i === 0, i2: i === 1, i3: i === 2, i4: i === 3, line: i < arr.length - 1, pad: i < arr.length - 1 ? '24px' : '0', dotBg: i === arr.length - 1 ? '#E0A458' : '#2B1A12', dotFg: i === arr.length - 1 ? '#2B1A12' : '#F7F0E4' }))
+};
+}
+}
+
+export default class VisitBody extends Logic {
+  render() {
+    const { hours, steps } = this.renderVals();
+    return (
+      <Fragment>
+<div style="width: 100%; font-family: 'DM Sans', system-ui, sans-serif; color: #2B1A12; background: #F7F0E4; padding: clamp(28px, 5vw, 64px) clamp(20px, 4vw, 40px) clamp(56px, 7vw, 96px); box-sizing: border-box">
+<div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px">
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">Visit us</span>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(40px, 5.5vw, 68px); letter-spacing: -0.03em; line-height: 1">Visit Our Coffee Shop in Madonna Hospital CDO</h1>
+<p style="margin: 0; font-size: 18px; color: #5A3A28; max-width: 720px">The Callroom is the coffee shop in Madonna Hospital CDO, on the second floor along JV Serina Street. Come up, order at the counter, and give us a few minutes.</p>
+<p style="margin: 0; font-size: 15px; color: #5A3A28">Madonna Hospital, 2nd Floor, JV Serina St, Cagayan de Oro, Misamis Oriental 9000, Philippines</p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch">
+<div style="flex: 999 1 560px; min-width: 0; min-height: 380px; border-radius: 24px; background: #E6D9C3; border: 1px solid #E3D5BF; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center">
+<img src="/images/visit-map.webp" alt="Map showing Madonna &amp; Child Hospital on J. Seriña St, Cagayan de Oro, near Vamenta Blvd and the Cagayan de Oro River" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 48%; display: block" />
+<iframe src="https://www.google.com/maps?q=Madonna+%26+Child+Hospital,+J.+Seri%C3%B1a+St,+Cagayan+de+Oro&amp;ll=8.4771923,124.6352272&amp;z=17&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map to The Callroom, Madonna &amp; Child Hospital" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block"></iframe>
+<span style="position: absolute; top: 16px; right: 16px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 12px; background: #FFFBF4; border: 1px solid #E3D5BF; font-size: 13px; font-weight: 700; color: #2B1A12"><span style="width: 8px; height: 8px; border-radius: 999px; background: #E0A458"></span>The Callroom · 2nd floor inside</span>
+<a href="https://www.google.com/maps/place/Madonna+%26+Child+Hospital/@8.4771923,124.6352272,17z/data=!4m6!3m5!1s0x32fff32ec57df6cb:0x86cb1a948edd3563!8m2!3d8.4771923!4d124.6352272!16s%2Fg%2F1tj98jf5?entry=ttu&amp;g_ep=EgoyMDI2MTExMC4wIKXMDSoASAFQAw%3D%3D" style="position: absolute; left: 16px; bottom: 16px; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px; border-radius: 999px; background: #2B1A12; color: #F7F0E4; font-weight: 700; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>Open in Google Maps</a>
+</div>
+
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div style="background: #2B1A12; color: #F7F0E4; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px"><h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px">Hours</h2><span style="display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; background: #DCEBE8; color: #1F4F4B; font-weight: 700; font-size: 12px"><span style="width: 7px; height: 7px; border-radius: 999px; background: #2F8F6A"></span>Open now</span></div>
+{(hours).map((h, _i0) => (<Fragment key={_i0}>
+<div style={`display: flex; justify-content: space-between; font-size: 15px; padding: 6px 10px; margin: 0 -10px; border-radius: 8px; background: ${h.bg}; color: ${h.fg}; font-weight: ${h.w}`}><span>{h.d}</span><span style="font-family: 'IBM Plex Mono', monospace">{h.t}</span></div>
+</Fragment>))}
+</div>
+<div style="background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 24px; padding: 22px; display: flex; flex-direction: column; gap: 10px">
+<a href="https://www.facebook.com/share/19KisJPYkX/" style="display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; border-radius: 999px; background: #2F6F6A; color: #FFFFFF; font-weight: 700; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5c-4.9 0-8.5 3.5-8.5 8 0 2.5 1.1 4.6 3 6v3l2.8-1.5c.9.3 1.8.4 2.7.4 4.9 0 8.5-3.5 8.5-8s-3.6-7.9-8.5-7.9z" /><path d="M7.5 13.5l3-3 2.2 2 3.8-3" /></svg>Message us on Messenger</a>
+<a href="tel:09327233849" style="display: flex; align-items: center; gap: 10px; min-height: 44px; color: #2B1A12; font-weight: 700; text-decoration: none; font-family: 'IBM Plex Mono', monospace"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6F6A" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" /></svg>0932 723 3849</a>
+<a href="mailto:thecallroombydc@gmail.com" style="display: flex; align-items: center; gap: 10px; min-height: 44px; color: #2B1A12; font-weight: 700"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6F6A" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3.5 6.5l8.5 6.5 8.5-6.5" /></svg>thecallroombydc@gmail.com</a>
+<a href="https://www.instagram.com/thecallroombydrcoffee" style="display: flex; align-items: center; gap: 10px; min-height: 44px; color: #2B1A12; font-weight: 700"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6F6A" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="4" /></svg>@thecallroombydrcoffee</a>
+</div>
+</div>
+</div>
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">Directions · 4 steps</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(30px, 3.6vw, 44px); letter-spacing: -0.02em">Finding the kiosk inside the hospital</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch">
+<ol style="flex: 999 1 520px; min-width: 0; margin: 0; padding: clamp(20px, 3vw, 32px); list-style: none; background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 24px; display: flex; flex-direction: column">
+{(steps).map((s, _i0) => (<Fragment key={_i0}>
+<li style="display: flex; gap: 18px">
+<div style="display: flex; flex-direction: column; align-items: center; flex: none">
+<span style={`width: 52px; height: 52px; border-radius: 999px; background: ${s.dotBg}; color: ${s.dotFg}; display: flex; align-items: center; justify-content: center`}>
+{(s.i1) ? (<Fragment><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5a1 1 0 0 1 1-1h9v17" /><path d="M14 8h5a1 1 0 0 1 1 1v12" /><path d="M8 8h2M8 12h2M8 16h2M3 21h18" /></svg></Fragment>) : null}
+{(s.i2) ? (<Fragment><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4v-4h4v-4h4V8h4" /><path d="M15 4h5v5" /></svg></Fragment>) : null}
+{(s.i3) ? (<Fragment><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></svg></Fragment>) : null}
+{(s.i4) ? (<Fragment><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h13v5a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6z" /><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17" /><path d="M8 2v3M12 2v3" /></svg></Fragment>) : null}
+</span>
+{(s.line) ? (<Fragment><span style="flex: 1 1 auto; width: 0; min-height: 28px; border-left: 2px dashed #B79C7A; margin: 6px 0"></span></Fragment>) : null}
+</div>
+<div style={`display: flex; flex-direction: column; gap: 6px; padding: 6px 0 ${s.pad}`}>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">Step {s.n}</span>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.2">{s.t}</h3>
+<p style="margin: 0; font-size: 16px; color: #5A3A28; line-height: 1.6">{s.b}</p>
+</div>
+</li>
+</Fragment>))}
+</ol>
+<aside style="flex: 1 1 320px; min-width: 0; background: #2B1A12; color: #F7F0E4; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column">
+<div style="aspect-ratio: 4 / 3; overflow: hidden; background: #3A261B"><img src="/images/kiosk.webp" alt="The Callroom kiosk on the 2nd floor of Madonna Hospital" style="width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block" /></div>
+<div style="padding: 22px 24px 26px; display: flex; flex-direction: column; gap: 14px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #E0A458">You've arrived</span>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.02em; line-height: 1.1">Look for the “The Callroom” sign</h3>
+<div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px; color: #EADBC4">
+<span style="display: flex; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px dashed #5A3A28"><span>Floor</span><strong style="color: #F7F0E4">2nd floor</strong></span>
+<span style="display: flex; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px dashed #5A3A28"><span>Hours</span><strong style="color: #F7F0E4">Mon–Sat · 6AM–6PM</strong></span>
+<span style="display: flex; justify-content: space-between; gap: 12px"><span>Appointment</span><strong style="color: #F7F0E4">Walk-ins welcome</strong></span>
+</div>
+<a href="tel:09327233849" style="display: inline-flex; align-self: flex-start; align-items: center; gap: 8px; min-height: 48px; padding: 0 20px; border-radius: 999px; border: 1.5px solid #5A3A28; color: #F7F0E4; font-weight: 700; text-decoration: none; margin-top: 4px">Can't find us? Call 0932 723 3849</a>
+</div>
+</aside>
+</div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; padding: 22px 26px; border-radius: 20px; background: #EFE4D2">
+<p style="margin: 0; font-size: 16px; color: #2B1A12; max-width: 640px"><strong>In a rush between rounds?</strong> Order ahead and your drink will be waiting at the counter.</p>
+<a href="/order" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; border-radius: 999px; background: #2B1A12; color: #F7F0E4; font-weight: 700; text-decoration: none">Order Ahead</a>
+</div>
+
+</div>
+</div>
+      </Fragment>
+    );
+  }
+}

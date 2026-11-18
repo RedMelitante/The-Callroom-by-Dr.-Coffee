@@ -1,0 +1,92 @@
+// Generated from the Claude Design component AboutBody.dc.html; markup and styles kept verbatim.
+import { Fragment } from 'preact';
+import { DCLogic } from '../../lib/dc.js';
+import { DO_GOOD_TEXT } from '../../lib/site.js';
+
+class Logic extends DCLogic {
+renderVals() {
+return { team: [
+{ role: 'At the kiosk', caption: 'Brewing from 6AM on the 2nd floor.', src: '/images/baristas-three.webp', alt: 'Three Callroom baristas at the counter' },
+{ role: 'On the coffee cart', caption: 'Serving events across CDO.', src: '/images/team-at-cart.webp', alt: 'The coffee cart team outdoors' },
+{ role: 'At hospital events', caption: 'We already know the building.', src: '/images/stall-baristas.webp', alt: 'Two baristas at the Dr. Coffee stall' },
+{ role: 'At your celebration', caption: 'Setup to teardown, handled by our team.', src: '/images/barista-guest.webp', alt: 'Barista and team member at the cart' }
+] };
+}
+}
+
+export default class AboutBody extends Logic {
+  render() {
+    const { team } = this.renderVals();
+    return (
+      <Fragment>
+<div style="width: 100%; font-family: 'DM Sans', system-ui, sans-serif; color: #2B1A12; background: #F7F0E4">
+
+<section style="padding: clamp(36px, 6vw, 88px) clamp(20px, 4vw, 40px)">
+<div style="max-width: 1240px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: clamp(28px, 5vw, 72px); align-items: flex-end">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<p style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.01em; color: #2F6F6A">Coffee, On Call for Every Shift</p>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(42px, 6vw, 80px); letter-spacing: -0.035em; line-height: 0.98">About Our Specialty Coffee Shop in CDO</h1>
+</div>
+<p style="flex: 1 1 360px; min-width: 0; margin: 0; font-size: 18px; line-height: 1.7; color: #5A3A28">The Callroom by Dr. Coffee is a specialty coffee shop in CDO that started with a very ordinary observation: hospitals run on caffeine, and almost nobody inside one has time to leave for a decent cup. So we set up on the second floor of Madonna Hospital, close enough that a nurse on break can be back on the floor before her coffee cools.</p>
+</div>
+</section>
+
+<section style="padding: 0 clamp(20px, 4vw, 40px)">
+<div style="max-width: 1240px; margin: 0 auto; width: 100%; aspect-ratio: 21 / 9; min-height: 220px; border-radius: 28px; overflow: hidden; background: #E2D1B6"><img src="/images/kiosk.webp" alt="The Callroom kiosk on the 2nd floor of Madonna Hospital" style="width: 100%; height: 100%; object-fit: cover; display: block;object-position: center 35%" /></div>
+</section>
+
+<section style="padding: clamp(56px, 7vw, 96px) clamp(20px, 4vw, 40px)">
+<div style="max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px)">
+<div style="display: flex; flex-direction: column; gap: 12px"><h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(26px, 3vw, 36px); letter-spacing: -0.02em; line-height: 1.1">Why The Callroom</h2><p style="margin: 0; font-size: 17px; line-height: 1.7; color: #5A3A28">In a hospital, the Callroom is where staff catch a few minutes of rest between rounds. We borrowed the name because that’s exactly what we wanted the space to be: somewhere you can sit down, breathe, and not be needed for five whole minutes. The coffee is the excuse.</p></div>
+<div style="display: flex; flex-direction: column; gap: 12px"><h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(26px, 3vw, 36px); letter-spacing: -0.02em; line-height: 1.1">What makes us a specialty coffee shop, not a kiosk</h2><p style="margin: 0; font-size: 17px; line-height: 1.7; color: #5A3A28">Everything starts with 100% Arabica, brewed to order. From there it branches out: espresso classics like the Americano, flat white and Spanish latte; our house signature Dr. Viet; a Milk Series for anyone who wants sweet and cold instead of strong; Soda and Yakult series for the non-coffee drinkers; and cookies baked in our own kitchen, wrapped fresh each morning.</p></div>
+<div style="display: flex; flex-direction: column; gap: 12px"><h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(26px, 3vw, 36px); letter-spacing: -0.02em; line-height: 1.1">Who we serve</h2><p style="margin: 0; font-size: 17px; line-height: 1.7; color: #5A3A28">Doctors between consults. Nurses coming off night shift. Families waiting on news upstairs. Med reps, students, and people who just work nearby and know where the good coffee is. Our hours, sizes and prices are all built around that crowd rather than around a tourist trade.</p></div>
+<div style="display: flex; flex-direction: column; gap: 12px"><h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(26px, 3vw, 36px); letter-spacing: -0.02em; line-height: 1.1">We travel across Cagayan de Oro, too</h2><p style="margin: 0; font-size: 17px; line-height: 1.7; color: #5A3A28">Our mobile coffee cart takes the same beans and the same baristas out to birthdays, weddings, debuts, hospital events and corporate launches across CDO, with cart, team, custom menu and branded cups included.</p></div>
+</div>
+</section>
+
+<section style="background: #2B1A12; color: #F7F0E4; padding: clamp(64px, 9vw, 128px) clamp(20px, 4vw, 40px)">
+<div style="max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #E0A458; font-weight: 600">Our philosophy</span>
+<p style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(48px, 8vw, 112px); letter-spacing: -0.04em; line-height: 0.95">One bean, done properly.</p>
+<p style="margin: 0; font-size: 18px; line-height: 1.7; color: #EADBC4; max-width: 640px">Smoother, sweeter coffee that holds up whether you take it hot or iced. Every drink starts with fresh Arabica, cold milk and a barista who actually watches the extraction.</p>
+</div>
+</section>
+
+<section style="padding: clamp(56px, 7vw, 96px) clamp(20px, 4vw, 40px)">
+<div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #2F6F6A; font-weight: 600">Behind the counter</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(32px, 4vw, 52px); letter-spacing: -0.025em; line-height: 1.05">The Callroom Crew</h2>
+<p style="margin: 0; font-size: 17px; color: #5A3A28; line-height: 1.6; max-width: 640px">The same beans and the same baristas, whether you find us at the kiosk or at your event.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px">
+{(team).map((m, _i0) => (<Fragment key={_i0}>
+<article style="background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 20px; overflow: hidden">
+<div style="aspect-ratio: 4 / 5; background: #E2D1B6; overflow: hidden"><img src={m.src} alt={m.alt} style="width: 100%; height: 100%; object-fit: cover; display: block" /></div>
+<div style="padding: 14px 16px; display: flex; flex-direction: column; gap: 2px">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 18px">{m.role}</h3>
+<span style="font-size: 13px; color: #5A3A28; margin-top: 2px; line-height: 1.45">{m.caption}</span>
+</div>
+</article>
+</Fragment>))}
+</div>
+</div>
+</section>
+
+<section style="padding: 0 clamp(20px, 4vw, 40px) clamp(56px, 7vw, 96px)">
+<div style="max-width: 1240px; margin: 0 auto; background: #DCEBE8; border-radius: 28px; padding: clamp(28px, 5vw, 56px); display: flex; flex-wrap: wrap; gap: 28px; align-items: center">
+<img src="/images/drink-coffee-do-good-original.webp" alt="Drink Coffee and Do Good lettering" style="width: 160px; height: auto; border-radius: 18px; display: block; flex: none" />
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(30px, 4vw, 48px); letter-spacing: -0.025em; line-height: 1.05; color: #1F4F4B">Drink Coffee and Do Good</h2>
+{DO_GOOD_TEXT ? <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #1F4F4B">{DO_GOOD_TEXT}</p> : null}
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #1F4F4B"><strong>Come find us.</strong> We’re on duty Monday to Saturday, 6 AM to 6 PM, on the 2nd floor of Madonna Hospital along JV Serina Street. Walk-ins welcome, no appointment needed.</p>
+</div>
+<a href="/order" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; border-radius: 999px; background: #2B1A12; color: #F7F0E4; font-weight: 700; text-decoration: none">Order Ahead</a>
+</div>
+</section>
+
+</div>
+      </Fragment>
+    );
+  }
+}

@@ -1,0 +1,77 @@
+---
+// Page shell from the design's page wrappers (e.g. Home.dc.html / Home-Mobile.dc.html):
+// desktop = SiteHeader + page + SiteFooter; mobile = MobileHeader + page + SiteFooter + BottomNav.
+import '../styles/global.css';
+import SiteHeader from '../components/design/SiteHeader.jsx';
+import MobileHeader from '../components/design/MobileHeader.jsx';
+import SiteFooter from '../components/design/SiteFooter.jsx';
+import BottomNav from '../components/design/BottomNav.jsx';
+import CartDrawer from '../components/design/CartDrawer.jsx';
+
+interface Props {
+  title: string;
+  description?: string;
+  active?: string;
+  image?: string;
+  noindex?: boolean;
+  schema?: Record<string, unknown>;
+}
+
+const {
+  title,
+  description = 'The Callroom by Dr. Coffee: specialty coffee on the 2nd floor of Madonna Hospital, Cagayan de Oro. Open Mon–Sat, 6AM–6PM. Order ahead for pickup or book our mobile coffee cart for your event.',
+  active = 'Home',
+  image = '/images/hero-drinks.webp',
+  noindex = false,
+  schema,
+} = Astro.props;
+
+const fullTitle = `${title} — The Callroom`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" type="image/webp" href="/images/logo.webp" />
+    <link rel="apple-touch-icon" href="/images/logo.webp" />
+    <meta name="theme-color" content="#F7F0E4" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="The Callroom by Dr. Coffee" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:opsz,wght@9..40,400..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    />
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div style="width: 100%; min-height: 100vh; background: #F7F0E4; font-family: 'DM Sans', system-ui, sans-serif; color: #2B1A12; position: relative">
+      <div class="desktop-only"><SiteHeader client:load active={active} /></div>
+      <div class="mobile-only"><MobileHeader client:load /></div>
+      <main id="main"><slot /></main>
+      <SiteFooter />
+      <div class="mobile-only">
+        <div style="height: 76px"></div>
+        <BottomNav client:load active={active} />
+      </div>
+    </div>
+    <CartDrawer client:idle />
+  </body>
+</html>

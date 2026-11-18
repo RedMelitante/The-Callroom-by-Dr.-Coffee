@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import VisitBody from '../components/design/VisitBody.jsx';
+import { shopSchema } from '../lib/schema.js';
+---
+
+<BaseLayout title="Visit Us" active="Visit" description="Find The Callroom on the 2nd floor of Madonna Hospital, JV Serina St, Cagayan de Oro. Open Monday to Saturday, 6:00 AM to 6:00 PM." image="/images/kiosk.webp" schema={shopSchema(Astro.site)}>
+  <VisitBody client:idle />
+</BaseLayout>
