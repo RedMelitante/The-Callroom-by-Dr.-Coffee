@@ -63,8 +63,8 @@ Old WordPress URLs redirect: `/shop` → `/menu`, `/coffee-cart` → `/coffee-ca
 
 There is no backend yet, so the site works like this:
 
-- **Orders** (checkout) and **coffee cart booking requests** are sent to `PUBLIC_FORMS_ENDPOINT` as JSON if it is set (a Formspree form, a Make/Zapier webhook or a Google Apps Script web app all work). The JSON has `kind` (`order` or `booking`), `subject`, a readable `summary` and the full `order` / `booking` object.
-- **If `PUBLIC_FORMS_ENDPOINT` is not set**, the customer's email app opens with the order or request filled in, addressed to thecallroombydc@gmail.com, and the confirmation screen tells them to press send. Set the endpoint before launch so orders arrive without that extra step.
+- **Orders** (checkout) and **coffee cart booking requests** are sent to `PUBLIC_FORMS_ENDPOINT` as JSON if it is set (a Formspree form, a Make/Zapier webhook or a Google Apps Script web app all work). The JSON has `kind` (`order` or `booking`), `subject`, `to` (the shop email) and `cc` (the `REQUESTS_CC` list) for the service to email, a readable `summary`, and the full `order` / `booking` object.
+- **If `PUBLIC_FORMS_ENDPOINT` is not set**, the customer's email app opens with the order or request filled in, addressed to thecallroombydc@gmail.com with a copy (CC) to the addresses in `REQUESTS_CC` (`src/lib/site.js`), and the confirmation screen tells them to press send. Set the endpoint before launch so orders arrive without that extra step.
 - **Payment** is taken at the kiosk for now (`ONLINE_PAYMENTS = false` in `src/lib/site.js`). The checkout still lets customers choose GCash, Maya or card, but the site never collects card details. Turning on online payment needs a payment provider (e.g. PayMongo) through a backend.
 - **My account** shows the orders, bookings and details saved in that browser (`ACCOUNTS_ENABLED = false`). Real sign-in needs a backend.
 

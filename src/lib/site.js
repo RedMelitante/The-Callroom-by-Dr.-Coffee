@@ -26,6 +26,10 @@ export const CONTACT = {
 // What is next to the kiosk, for the Visit Us directions. Leave empty until confirmed.
 export const KIOSK_LANDMARK = '';
 
+// Extra addresses that get a copy (CC) of every order and coffee cart booking request.
+// Requests always go to CONTACT.email; the public contact email on the site doesn't change.
+export const REQUESTS_CC = ['redmelitante@digitalservicesmaster.com'];
+
 // Optional form endpoint (e.g. Formspree, Make, Google Apps Script) that receives orders and
 // booking requests as JSON. Without it, requests are handed off to email so nothing is lost.
 export const FORMS_ENDPOINT = import.meta.env.PUBLIC_FORMS_ENDPOINT || '';
