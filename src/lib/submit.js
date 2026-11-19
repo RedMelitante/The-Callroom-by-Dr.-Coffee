@@ -5,13 +5,19 @@ import { FORMS_ENDPOINT, CONTACT, REQUESTS_CC } from './site.js';
 
 export async function sendRequest(kind, subject, lines, data) {
   if (FORMS_ENDPOINT) {
+    // Google Apps Script web apps don't answer CORS preflights, so send JSON as text/plain there
+    // (a "simple" request). Other services get a normal JSON request.
+    const appsScript = /^https:\/\/script\.google\.com\//.test(FORMS_ENDPOINT);
     const res = await fetch(FORMS_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      // `to` and `cc` tell the form service who should be emailed about this request.
+      headers: { 'Content-Type': appsScript ? 'text/plain;charset=utf-8' : 'application/json', Accept: 'application/json' },
+      // `to` and `cc` tell a generic form service who should be emailed. The Apps Script in
+      // integrations/google-apps-script ignores them and uses its own fixed recipients.
       body: JSON.stringify({ kind, subject, to: CONTACT.email, cc: REQUESTS_CC, summary: lines.join('\n'), ...data }),
     });
     if (!res.ok) throw new Error(`Request failed (${res.status})`);
+    const reply = await res.json().catch(() => null);
+    if (reply && reply.ok === false) throw new Error(reply.error || 'Request rejected');
     return 'sent';
   }
   const cc = REQUESTS_CC.length ? `&cc=${encodeURIComponent(REQUESTS_CC.join(','))}` : '';

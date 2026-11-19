@@ -46,7 +46,7 @@ const lines = ['New coffee cart booking request', '', `Date: ${fmtDate(s.date)} 
 `Service: ${s.start} – ${s.end}`, `Theme / notes: ${s.theme || '—'}`, '', `Name: ${s.name}`, `Mobile: ${s.phone}`, `Email: ${s.email || '—'}`];
 this.setState({ sending: true, failed: '' });
 try {
-const via = await sendRequest('booking', `Coffee cart booking · ${fmtDate(s.date)} · ${s.session}`, lines, { booking: { date: s.date, session: s.session, pkg: s.pkg, type: s.type, guests: s.guests, venue: s.venue, start: s.start, end: s.end, theme: s.theme, name: s.name, phone: s.phone, email: s.email } });
+const via = await sendRequest('booking', `Coffee cart booking · ${fmtDate(s.date)} · ${s.session}`, lines, { booking: { date: s.date, session: s.session, pkg: s.pkg, pkgName, type: s.type, guests: s.guests, venue: s.venue, start: s.start, end: s.end, theme: s.theme, name: s.name, phone: s.phone, email: s.email } });
 remember('bookings', { date: s.date, session: s.session, pkg: pkgName, guests: s.guests, venue: s.venue, type: s.type, sentAt: new Date().toISOString() });
 this.setState({ sending: false, step: 5, via });
 } catch {

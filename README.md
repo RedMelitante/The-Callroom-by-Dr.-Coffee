@@ -57,14 +57,18 @@ Old WordPress URLs redirect: `/shop` → `/menu`, `/coffee-cart` → `/coffee-ca
 | `src/styles/global.css` | Tailwind v4 `@theme` tokens, focus ring, blog article styles |
 | `src/content/blog/` | Blog posts (Markdown) |
 | `public/images/` | All design images (WebP) |
+| `integrations/google-apps-script/` | Form service: emails orders and bookings, puts bookings on Google Calendar |
 | `design/` | The original Claude Design handoff bundle |
 
 ## How orders and bookings reach the shop
 
-There is no backend yet, so the site works like this:
+There is no store backend yet, so the site works like this:
 
-- **Orders** (checkout) and **coffee cart booking requests** are sent to `PUBLIC_FORMS_ENDPOINT` as JSON if it is set (a Formspree form, a Make/Zapier webhook or a Google Apps Script web app all work). The JSON has `kind` (`order` or `booking`), `subject`, `to` (the shop email) and `cc` (the `REQUESTS_CC` list) for the service to email, a readable `summary`, and the full `order` / `booking` object.
-- **If `PUBLIC_FORMS_ENDPOINT` is not set**, the customer's email app opens with the order or request filled in, addressed to thecallroombydc@gmail.com with a copy (CC) to the addresses in `REQUESTS_CC` (`src/lib/site.js`), and the confirmation screen tells them to press send. Set the endpoint before launch so orders arrive without that extra step.
+- **Form service (set up before launch):** [`integrations/google-apps-script/`](integrations/google-apps-script/README.md) is a free Google Apps Script that runs in the shop's Google account. Deploy it and set its URL as `PUBLIC_FORMS_ENDPOINT`. Then:
+  - **coffee cart bookings** are emailed to thecallroombydc@gmail.com (CC redmelitante@digitalservicesmaster.com) **and** added to the shop's Google Calendar as a yellow "request" event;
+  - **pickup orders** are emailed to the same two addresses, with no calendar event.
+- Another service can be used instead (Formspree, Make, Zapier): the site POSTs JSON with `kind` (`order` or `booking`), `subject`, `to` and `cc`, a readable `summary`, and the full `order` / `booking` object.
+- **If `PUBLIC_FORMS_ENDPOINT` is not set**, the customer's email app opens with the order or request filled in, addressed to thecallroombydc@gmail.com with a copy (CC) to the addresses in `REQUESTS_CC` (`src/lib/site.js`). The confirmation screen tells them to press send. Nothing goes on the calendar in this mode.
 - **Payment** is taken at the kiosk for now (`ONLINE_PAYMENTS = false` in `src/lib/site.js`). The checkout still lets customers choose GCash, Maya or card, but the site never collects card details. Turning on online payment needs a payment provider (e.g. PayMongo) through a backend.
 - **My account** shows the orders, bookings and details saved in that browser (`ACCOUNTS_ENABLED = false`). Real sign-in needs a backend.
 
@@ -109,7 +113,7 @@ The site builds to static files in `dist/`.
 **Railway:** create a service from this repo. Railway runs `npm run build` and then `npm start`, which serves `dist/` on the port Railway provides with caching and security headers (`public/serve.json`). Set these variables:
 
 - `SITE_URL`: the public URL, e.g. `https://callroomcoffee.com` (this is the default).
-- `PUBLIC_FORMS_ENDPOINT`: where orders and bookings are sent (see above). It is read at build time, so redeploy after changing it.
+- `PUBLIC_FORMS_ENDPOINT`: the Google Apps Script web app URL (see [its setup guide](integrations/google-apps-script/README.md)). It is read at build time, so redeploy after changing it.
 
 Any static host (Netlify, Vercel, Cloudflare Pages) also works: build command `npm run build`, output folder `dist`.
 
