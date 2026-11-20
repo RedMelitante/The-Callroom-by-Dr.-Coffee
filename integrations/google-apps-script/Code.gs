@@ -106,6 +106,9 @@ function doPost(e) {
     if (body.action === 'order') {
       return jsonOutput(createOrderRequest(body));
     }
+    if (body.action === 'cancel') {
+      return jsonOutput(cancelBookingRequest(body));
+    }
     return jsonOutput({ error: 'Unknown action' });
   } catch (err) {
     return jsonOutput({ error: String(err) });
@@ -188,11 +191,20 @@ function createBookingRequest(body) {
   const event = cal.createEvent(title, slotStart, slotEnd, { description: descriptionLines.join('\n'), location: location });
   event.setColor(CalendarApp.EventColor.YELLOW);
 
+  // A random code, stored only on this calendar event and in the customer's
+  // browser, lets the customer cancel this booking from the website's
+  // My account page (see cancelBookingRequest below).
+  const cancelToken = Utilities.getUuid();
+  event.setTag('cancelToken', cancelToken);
+  event.setTag('status', 'pending');
+
   notifyStaff(name, phone, date, slot.label, packageLabel, guestCount, location, note);
 
   return {
     success: true,
     message: 'Request received! We will call you shortly to confirm your booking.',
+    bookingId: event.getId(),
+    cancelToken: cancelToken,
   };
 }
 
@@ -217,6 +229,72 @@ function notifyStaff(name, phone, date, sessionLabel, packageLabel, guestCount, 
   ].filter(function (line) { return line !== ''; });
 
   MailApp.sendEmail(CONFIG.notifyEmail, subject, bodyLines.join('\n'));
+}
+
+/* ================= Booking cancellation ================= */
+
+// Called from the website's My account page. Needs the bookingId and the
+// cancelToken returned when the booking was made, so only the customer who
+// made the booking can cancel it. The event is kept on the calendar, renamed
+// "CANCELLED - …" and colored red, and staff get an email.
+function cancelBookingRequest(body) {
+  const bookingId = sanitize(body.bookingId, 300);
+  const cancelToken = sanitize(body.cancelToken, 100);
+  const reason = sanitize(body.reason, 500);
+
+  if (!bookingId || !cancelToken) {
+    return { error: 'MISSING_FIELDS', message: 'This booking can\'t be cancelled online. Please call or message us.' };
+  }
+
+  const cal = CalendarApp.getCalendarById(CONFIG.calendarId);
+  if (!cal) return { error: 'CONFIG_ERROR', message: 'Booking system is misconfigured. Please contact us directly.' };
+
+  let event = null;
+  try {
+    event = cal.getEventById(bookingId);
+  } catch (err) {
+    event = null;
+  }
+  // Same answer for "no such booking" and "wrong code", so codes can't be guessed.
+  if (!event || event.getTag('cancelToken') !== cancelToken) {
+    return { error: 'NOT_FOUND', message: 'We couldn\'t find this booking. Please call or message us to cancel.' };
+  }
+
+  if (event.getTag('status') === 'cancelled') {
+    return { success: true, message: 'This booking was already cancelled.' };
+  }
+  if (event.getStartTime().getTime() < Date.now()) {
+    return { error: 'TOO_LATE', message: 'This booking date has passed. Please call or message us.' };
+  }
+
+  const oldTitle = event.getTitle();
+  const cancelledAt = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd h:mm a');
+  event.setTitle('CANCELLED - ' + oldTitle.replace(/^(PENDING|CONFIRMED|CANCELLED)\s*-\s*/i, ''));
+  event.setColor(CalendarApp.EventColor.RED);
+  event.setDescription(
+    'CANCELLED by the customer on the website (' + cancelledAt + ').' +
+    (reason ? '\nReason: ' + reason : '') + '\n\n' + event.getDescription()
+  );
+  event.setTag('status', 'cancelled');
+
+  const when = Utilities.formatDate(event.getStartTime(), Session.getScriptTimeZone(), 'yyyy-MM-dd h:mm a');
+  const subject = oneLine('Booking cancelled by customer: ' + oldTitle.replace(/^(PENDING|CONFIRMED)\s*-\s*/i, '') + ' — ' + when);
+  const bodyLines = [
+    'A customer cancelled their coffee cart booking on the website.',
+    '',
+    'Booking: ' + oldTitle,
+    'Date/time: ' + when,
+    reason ? ('Reason: ' + reason) : '',
+    '',
+    'The calendar event is now marked CANCELLED (red). Delete it whenever you like.',
+    '',
+    'Booking details:',
+    event.getDescription(),
+  ].filter(function (line, i, arr) { return line !== '' || (arr[i - 1] !== '' && arr[i - 1] !== undefined); });
+
+  MailApp.sendEmail(CONFIG.notifyEmail, subject, bodyLines.join('\n'));
+
+  return { success: true, message: 'Your booking request has been cancelled.' };
 }
 
 /* ================= Order creation ================= */

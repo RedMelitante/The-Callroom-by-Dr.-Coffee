@@ -54,8 +54,8 @@ const lines = ['New coffee cart booking request', '', `Date: ${fmtDate(s.date)} 
 this.setState({ sending: true, failed: '' });
 try {
 const note = [`Event type: ${s.type}`, `Service: ${t12(s.start)} – ${t12(s.end)} (${sess})`, s.email ? `Email: ${s.email}` : '', s.theme ? `Theme / notes: ${s.theme}` : ''].filter(Boolean).join('\n');
-const via = await sendRequest('booking', `Coffee cart booking · ${fmtDate(s.date)} · ${s.session}`, lines, { action: 'book', date: s.date, session: slotOf(s.start), package: s.pkg, packageLabel: pkgName, guestCount: s.guests, location: s.venue, name: s.name, phone: s.phone, email: s.email, note, booking: { date: s.date, session: s.session, pkg: s.pkg, pkgName, type: s.type, guests: s.guests, venue: s.venue, start: s.start, end: s.end, theme: s.theme, name: s.name, phone: s.phone, email: s.email } });
-remember('bookings', { date: s.date, session: s.session, pkg: pkgName, guests: s.guests, venue: s.venue, type: s.type, sentAt: new Date().toISOString() });
+const { via, data } = await sendRequest('booking', `Coffee cart booking · ${fmtDate(s.date)} · ${s.session}`, lines, { action: 'book', date: s.date, session: slotOf(s.start), package: s.pkg, packageLabel: pkgName, guestCount: s.guests, location: s.venue, name: s.name, phone: s.phone, email: s.email, note, booking: { date: s.date, session: s.session, pkg: s.pkg, pkgName, type: s.type, guests: s.guests, venue: s.venue, start: s.start, end: s.end, theme: s.theme, name: s.name, phone: s.phone, email: s.email } });
+remember('bookings', { date: s.date, session: s.session, pkg: pkgName, guests: s.guests, venue: s.venue, type: s.type, start: s.start, end: s.end, sentAt: new Date().toISOString(), status: 'pending', bookingId: data?.bookingId || '', cancelToken: data?.cancelToken || '' });
 this.setState({ sending: false, step: 5, via });
 } catch {
 this.setState({ sending: false, failed: `We couldn't send your request. Please try again, or call us at ${CONTACT.phone}.` });

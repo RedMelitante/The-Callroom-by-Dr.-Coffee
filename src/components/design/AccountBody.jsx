@@ -3,7 +3,8 @@ import { Fragment } from 'preact';
 import { DCLogic } from '../../lib/dc.js';
 import { addItem } from '../../lib/cart.js';
 import { byName, peso } from '../../lib/catalog.js';
-import { history } from '../../lib/submit.js';
+import { history, updateHistory, cancelBooking, canCancelOnline } from '../../lib/submit.js';
+import { CONTACT } from '../../lib/site.js';
 import { ACCOUNTS_ENABLED } from '../../lib/site.js';
 
 const FIELD = 'min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px';
@@ -11,7 +12,19 @@ const CONTACT_KEY = 'callroom:contact';
 const fmtDate = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }).replace(/^(\w+) /, '$1, ');
 
 class Logic extends DCLogic {
-constructor(p) { super(p); this.state = { signedIn: false, tab: 'dash', orders: [], bookings: [], contact: {} }; }
+constructor(p) { super(p); this.state = { signedIn: false, tab: 'dash', orders: [], bookings: [], contact: {}, cancel: {} }; }
+// cancel[key] = { step: 'confirm' | 'sending', error }
+setCancel(key, v) { this.setState({ cancel: { ...this.state.cancel, [key]: v } }); }
+async doCancel(b, key) {
+this.setCancel(key, { step: 'sending' });
+try {
+await cancelBooking(b);
+updateHistory('bookings', (r) => r.sentAt === b.sentAt, { status: 'cancelled', cancelledAt: new Date().toISOString() });
+this.setState({ bookings: history('bookings'), cancel: { ...this.state.cancel, [key]: { step: 'done' } } });
+} catch (err) {
+this.setCancel(key, { step: 'confirm', error: `${err.message || 'Something went wrong.'} You can also call us at ${CONTACT.phone}.` });
+}
+}
 componentDidMount() { this.load(); }
 load() {
 let contact = {};
@@ -38,7 +51,7 @@ const usualOrder = s.orders[0];
 const usualItem = usualOrder?.items?.[0];
 const usualDrink = usualItem ? byName(usualItem.name) : null;
 const todayIso = new Date(Date.now() + 8 * 3600000).toISOString().slice(0, 10);
-const upcoming = s.bookings.find((b) => b.date >= todayIso);
+const upcoming = s.bookings.find((b) => b.date >= todayIso && b.status !== 'cancelled');
 return {
 signedIn, signedOut: !signedIn,
 eyebrow: ACCOUNTS_ENABLED ? (s.signedIn ? 'Signed in' : 'My account') : 'Saved on this device',
@@ -57,7 +70,21 @@ upName: upcoming?.pkg, upLine: upcoming ? `${fmtDate(upcoming.date)} · ${upcomi
 orders: s.orders.map((o) => ({ no: o.no, when: `${o.when === 'Today' ? new Date(o.placedAt).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) : o.when}, ${o.slot.replace(' · ~15 min', '')}`, status: 'Sent', sbg: '#F1E3CC', sfg: '#6B3F14', total: peso(o.total),
 view: (e) => { e.preventDefault(); try { sessionStorage.setItem('callroom:last-order', JSON.stringify(o)); } catch { /* ignore */ } location.href = '/order/confirmed'; } })),
 noOrders: s.loaded && !s.orders.length,
-bookings: s.bookings.map((b) => ({ head: `Request · ${fmtDate(b.date)} · ${b.session}`, title: b.pkg, line: `${b.type} · ${b.guests} guests · ${b.venue}` })),
+bookings: s.bookings.map((b, i) => {
+const key = b.sentAt || String(i);
+const c = s.cancel[key] || {};
+const cancelled = b.status === 'cancelled';
+const past = b.date < todayIso;
+const open = !cancelled && !past;
+return {
+key, head: `Request · ${fmtDate(b.date)} · ${b.session}`, title: b.pkg, line: `${b.type} · ${b.guests} guests · ${b.venue}`,
+status: cancelled ? 'Cancelled' : past ? 'Date passed' : 'Awaiting quote',
+sbg: cancelled ? '#F3DCD3' : past ? '#EFE4D2' : '#DCEBE8', sfg: cancelled ? '#7A2E1C' : past ? '#5A3A28' : '#1F4F4B',
+canCancel: open && canCancelOnline(b) && !c.step, confirming: open && (c.step === 'confirm' || c.step === 'sending'), sending: c.step === 'sending', error: c.error || '',
+justCancelled: cancelled && c.step === 'done', callToCancel: open && !canCancelOnline(b),
+ask: () => this.setCancel(key, { step: 'confirm' }), keep: () => this.setCancel(key, {}), confirm: () => this.doCancel(b, key),
+};
+}),
 noBookings: s.loaded && !s.bookings.length,
 firstName: first, lastName: rest.join(' '), phone: s.contact.phone || '', email: s.contact.email || ''
 };
@@ -157,9 +184,20 @@ export default class AccountBody extends Logic {
 
 {(tBook) ? (<Fragment>
 <div style="display: flex; flex-direction: column; gap: 14px">
-{bookings.map((b, k) => (<div key={k} style="background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 22px; padding: 22px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between">
+{bookings.map((b) => (<div key={b.key} style="background: #FFFBF4; border: 1px solid #E3D5BF; border-radius: 22px; padding: 22px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between">
 <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A3A28">{b.head}</span><strong style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 21px">{b.title}</strong><span style="font-size: 14px; color: #5A3A28">{b.line}</span></div>
-<span style="padding: 6px 12px; border-radius: 999px; background: #DCEBE8; color: #1F4F4B; font-weight: 700; font-size: 13px">Awaiting quote</span>
+<span style={`padding: 6px 12px; border-radius: 999px; background: ${b.sbg}; color: ${b.sfg}; font-weight: 700; font-size: 13px`}>{b.status}</span>
+{b.canCancel ? <div style="flex: 1 1 100%; display: flex; justify-content: flex-end; padding-top: 12px; border-top: 1px dashed #D6C3A5"><button type="button" onClick={b.ask} style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #B5432A; background: transparent; color: #9A3520; font-family: inherit; font-weight: 700; font-size: 15px; cursor: pointer">Cancel booking</button></div> : null}
+{b.confirming ? (<div role="group" aria-label="Confirm cancellation" style="flex: 1 1 100%; display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; justify-content: space-between; padding: 14px 16px; border-radius: 14px; background: #F3DCD3; color: #7A2E1C">
+<span style="font-size: 15px; font-weight: 600; flex: 1 1 240px">Cancel this booking request? We'll let the team know right away.</span>
+<span style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" onClick={b.confirm} disabled={b.sending} style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: none; background: #B5432A; color: #FFFFFF; font-family: inherit; font-weight: 800; font-size: 15px; cursor: pointer">{b.sending ? 'Cancelling…' : 'Yes, cancel booking'}</button>
+<button type="button" onClick={b.keep} disabled={b.sending} style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #7A2E1C; background: transparent; color: #7A2E1C; font-family: inherit; font-weight: 700; font-size: 15px; cursor: pointer">Keep booking</button>
+</span>
+{b.error ? <p role="alert" style="flex: 1 1 100%; margin: 0; font-size: 14px; font-weight: 600">{b.error}</p> : null}
+</div>) : null}
+{b.justCancelled ? <p role="status" style="flex: 1 1 100%; margin: 0; padding: 12px 14px; border-radius: 12px; background: #DCEBE8; color: #1F4F4B; font-size: 14px; font-weight: 600">Your booking request has been cancelled. We've let the team know.</p> : null}
+{b.callToCancel ? <p style="flex: 1 1 100%; margin: 0; padding-top: 12px; border-top: 1px dashed #D6C3A5; font-size: 14px; color: #5A3A28">Need to cancel? Call <a href="tel:09327233849" style="color: #8A4F17; font-weight: 700">0932 723 3849</a> or <a href="https://www.facebook.com/share/19KisJPYkX/" style="color: #8A4F17; font-weight: 700">message us</a>.</p> : null}
 </div>))}
 {noBookings ? <p style="margin: 0; font-size: 16px; color: #5A3A28">No coffee cart booking requests yet.</p> : null}
 <a href="/coffee-cart-events-booking-now" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; border-radius: 999px; background: #2F6F6A; color: #FFFFFF; font-weight: 700; text-decoration: none">Book another event</a>

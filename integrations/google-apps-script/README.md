@@ -6,12 +6,20 @@
 | --- | --- | --- | --- |
 | **Coffee cart booking** | `book` | thecallroombydc@gmail.com and redmelitante@gmail.com | Yellow **PENDING** event on the cart's calendar (`CONFIG.calendarId`) at the requested 30-minute slot |
 | **Pickup order** | `order` | thecallroombydc@gmail.com and redmelitante@gmail.com | Nothing |
+| **Customer cancels a booking** (My account page) | `cancel` | thecallroombydc@gmail.com and redmelitante@gmail.com | The booking's event is renamed **CANCELLED - …** and turned **red** (kept as a record; delete it whenever you like) |
 
 `CONFIG.notifyEmail` is a comma-separated list; `MailApp.sendEmail` emails every address in it.
 
 How bookings work:
 - The website sends `date`, `session` (the 30-minute slot the customer's start time falls in, 7:00 AM to 8:00 PM), `package` and `packageLabel`, `guestCount`, `location`, `name`, `phone`, and a `note`. The note holds the event type, the full service window, the customer's email and the theme.
 - Slots and dates are never blocked. Overlapping requests show as overlapping PENDING events, and staff confirm by phone.
+
+How cancelling works (`cancelBookingRequest`):
+- When a booking is made, the script stores a random **cancel code** on its calendar event (event tags `cancelToken` and `status`) and replies with `bookingId` (the event ID) and `cancelToken`. The website saves both with the booking in the customer's browser.
+- On **My account → Coffee cart bookings**, each upcoming booking has a **Cancel booking** button, with a confirm step. It POSTs `{ action: "cancel", bookingId, cancelToken }`.
+- The script cancels only if the code matches that event. A wrong code and an unknown booking get the same `NOT_FOUND` answer, so codes can't be guessed. Bookings whose date has passed return `TOO_LATE`. Cancelling twice is harmless.
+- Bookings made before this update, or through the email hand-off, have no code. For those, the page shows "Need to cancel? Call 0932 723 3849 or message us" instead of a button.
+- The owner can still rename or recolour events (e.g. to CONFIRMED); a customer cancel still works and turns the event red.
 
 How orders work (`createOrderRequest`):
 - The website sends `{ action: "order", order: { no, name, phone, email, fulfillment, when, slot, pay, items: [{ name, opts, qty, total }], total } }`. Top-level fields (and `address`, `price`, `options`) are accepted too.
