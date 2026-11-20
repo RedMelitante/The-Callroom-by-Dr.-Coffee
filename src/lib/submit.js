@@ -1,7 +1,7 @@
 // Sends an order or booking request.
 // With PUBLIC_FORMS_ENDPOINT set, it POSTs JSON there. Otherwise it opens the customer's email app
-// with the request filled in, addressed to the shop (plus REQUESTS_CC), so no request is silently dropped.
-import { FORMS_ENDPOINT, CONTACT, REQUESTS_CC } from './site.js';
+// with the request filled in, addressed to REQUESTS_TO (plus REQUESTS_CC), so no request is silently dropped.
+import { FORMS_ENDPOINT, REQUESTS_TO, REQUESTS_CC } from './site.js';
 
 export async function sendRequest(kind, subject, lines, data) {
   if (FORMS_ENDPOINT) {
@@ -13,7 +13,7 @@ export async function sendRequest(kind, subject, lines, data) {
       headers: { 'Content-Type': appsScript ? 'text/plain;charset=utf-8' : 'application/json', Accept: 'application/json' },
       // `to` and `cc` tell a generic form service who should be emailed. The Apps Script in
       // integrations/google-apps-script ignores them and uses its own fixed recipients.
-      body: JSON.stringify({ kind, subject, to: CONTACT.email, cc: REQUESTS_CC, summary: lines.join('\n'), ...data }),
+      body: JSON.stringify({ kind, subject, to: REQUESTS_TO, cc: REQUESTS_CC, summary: lines.join('\n'), ...data }),
     });
     if (!res.ok) throw new Error(`Request failed (${res.status})`);
     const reply = await res.json().catch(() => null);
@@ -21,7 +21,7 @@ export async function sendRequest(kind, subject, lines, data) {
     return 'sent';
   }
   const cc = REQUESTS_CC.length ? `&cc=${encodeURIComponent(REQUESTS_CC.join(','))}` : '';
-  const href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}${cc}&body=${encodeURIComponent(lines.join('\n'))}`;
+  const href = `mailto:${REQUESTS_TO}?subject=${encodeURIComponent(subject)}${cc}&body=${encodeURIComponent(lines.join('\n'))}`;
   window.location.href = href;
   return 'email';
 }
