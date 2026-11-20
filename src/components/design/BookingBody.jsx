@@ -11,6 +11,11 @@ if (!iso) return '';
 const d = new Date(iso + 'T00:00:00');
 return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', ...(year ? { year: 'numeric' } : {}) }).replace(/^(\w+) /, '$1, ');
 };
+// The backend books 30-minute slots from 7:00 AM; the last slot starts at 8:00 PM.
+const toMin = (hm) => { const [h, m] = String(hm || '').split(':').map(Number); return h * 60 + m; };
+const slotOf = (hm) => { const m = Math.floor(toMin(hm) / 30) * 30; return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };
+const t12 = (hm) => { const m = toMin(hm); const h = Math.floor(m / 60); return `${((h + 11) % 12) + 1}:${String(m % 60).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`; };
+const DEFAULT_TIMES = { AM: ['09:00', '12:00'], PM: ['15:00', '18:00'] };
 const tomorrow = () => { const d = new Date(Date.now() + 86400000 + 8 * 3600000); return d.toISOString().slice(0, 10); };
 
 class Logic extends DCLogic {
@@ -30,6 +35,8 @@ if (step === 1 && (!s.date || s.date < tomorrow())) e.date = 'Choose an event da
 if (step === 3) {
 if (!(Number(s.guests) > 0)) e.guests = 'Enter your expected guest count.';
 if (!s.venue.trim()) e.venue = 'Tell us the venue and area.';
+if (!s.start || toMin(s.start) < 7 * 60 || toMin(s.start) >= 20 * 60 + 30) e.start = 'Service can start between 7:00 AM and 8:00 PM.';
+if (!s.end || toMin(s.end) <= toMin(s.start)) e.end = 'End time must be after the start time.';
 }
 if (step === 4) {
 if (!s.name.trim()) e.name = 'Enter your full name.';
@@ -46,7 +53,8 @@ const lines = ['New coffee cart booking request', '', `Date: ${fmtDate(s.date)} 
 `Service: ${s.start} – ${s.end}`, `Theme / notes: ${s.theme || '—'}`, '', `Name: ${s.name}`, `Mobile: ${s.phone}`, `Email: ${s.email || '—'}`];
 this.setState({ sending: true, failed: '' });
 try {
-const via = await sendRequest('booking', `Coffee cart booking · ${fmtDate(s.date)} · ${s.session}`, lines, { booking: { date: s.date, session: s.session, pkg: s.pkg, type: s.type, guests: s.guests, venue: s.venue, start: s.start, end: s.end, theme: s.theme, name: s.name, phone: s.phone, email: s.email } });
+const note = [`Event type: ${s.type}`, `Service: ${t12(s.start)} – ${t12(s.end)} (${sess})`, s.email ? `Email: ${s.email}` : '', s.theme ? `Theme / notes: ${s.theme}` : ''].filter(Boolean).join('\n');
+const via = await sendRequest('booking', `Coffee cart booking · ${fmtDate(s.date)} · ${s.session}`, lines, { action: 'book', date: s.date, session: slotOf(s.start), package: s.pkg, packageLabel: pkgName, guestCount: s.guests, location: s.venue, name: s.name, phone: s.phone, email: s.email, note, booking: { date: s.date, session: s.session, pkg: s.pkg, pkgName, type: s.type, guests: s.guests, venue: s.venue, start: s.start, end: s.end, theme: s.theme, name: s.name, phone: s.phone, email: s.email } });
 remember('bookings', { date: s.date, session: s.session, pkg: pkgName, guests: s.guests, venue: s.venue, type: s.type, sentAt: new Date().toISOString() });
 this.setState({ sending: false, step: 5, via });
 } catch {
@@ -74,13 +82,13 @@ return {
 stepLabel: s.step > 4 ? 'Sent' : 'Step ' + s.step + ' of 4',
 steps: labels.map((l, i) => ({ label: l, bar: i + 1 <= s.step ? '#2F6F6A' : '#E3D5BF', fg: i + 1 === s.step ? '#2B1A12' : '#5A3A28' })),
 s1: s.step === 1, s2: s.step === 2, s3: s.step === 3, s4: s.step === 4, done: s.step === 5, showNav: s.step < 5,
-sessions: [{ id: 'AM', label: 'Morning (AM)', note: 'AM' }, { id: 'PM', label: 'Afternoon / Evening (PM)', note: 'PM' }].map((o) => ({ ...pill(o.id === s.session), ...o, pick: () => this.setState({ session: o.id, checked: false }) })),
+sessions: [{ id: 'AM', label: 'Morning (AM)', note: 'AM' }, { id: 'PM', label: 'Afternoon / Evening (PM)', note: 'PM' }].map((o) => ({ ...pill(o.id === s.session), ...o, pick: () => this.setState({ session: o.id, checked: false, ...(s.timesEdited ? {} : { start: DEFAULT_TIMES[o.id][0], end: DEFAULT_TIMES[o.id][1] }) }) })),
 checked: s.checked, sessionLabel: sess[s.session], sessionShort: s.session,
 pkgs: pk.map((p) => { const sel = p.id === s.pkg; return { ...p, sel: sel ? 'true' : 'false', bg: sel ? '#F1E3CC' : '#FFFFFF', bd: sel ? '#2B1A12' : '#D6C3A5', pick: () => this.setState({ pkg: p.id }) }; }),
 pkgName,
 v: s, e, minDate: s.minDate,
-onDate: set('date', { checked: false }), onType: set('type'), onGuests: set('guests'), onVenue: set('venue'), onStart: set('start'), onEnd: set('end'), onTheme: set('theme'), onName: set('name'), onPhone: set('phone'), onEmail: set('email'),
-st: { date: fs(e.date, 52), guests: fs(e.guests), venue: fs(e.venue), name: fs(e.name), phone: fs(e.phone), email: fs(e.email), plain: fs(false) },
+onDate: set('date', { checked: false }), onType: set('type'), onGuests: set('guests'), onVenue: set('venue'), onStart: set('start', { timesEdited: true }), onEnd: set('end', { timesEdited: true }), onTheme: set('theme'), onName: set('name'), onPhone: set('phone'), onEmail: set('email'),
+st: { date: fs(e.date, 52), guests: fs(e.guests), venue: fs(e.venue), start: fs(e.start), end: fs(e.end), name: fs(e.name), phone: fs(e.phone), email: fs(e.email), plain: fs(false) },
 dateLong: fmtDate(s.date), dateShort: fmtDate(s.date, false), via: s.via, failed: s.failed,
 canBack: s.step > 1, noBack: s.step === 1,
 nextLabel, nextBg: s.step === 4 ? '#E0A458' : '#2B1A12', nextFg: s.step === 4 ? '#2B1A12' : '#F7F0E4',
@@ -166,8 +174,8 @@ export default class BookingBody extends Logic {
 <div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-type" style="font-weight: 700; font-size: 14px">Event type</label><select id="bk-type" value={v.type} onChange={onType} style="min-height: 50px; padding: 0 14px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px; color: #2B1A12"><option>Birthday or debut</option><option>Wedding</option><option>Hospital or clinic event</option><option>Corporate or office</option><option>Christening or reunion</option><option>Other</option></select></div>
 <div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-guests" style="font-weight: 700; font-size: 14px">Guest count</label><input id="bk-guests" type="number" min="1" inputmode="numeric" required placeholder="80" value={v.guests} onInput={onGuests} aria-invalid={e.guests ? 'true' : undefined} aria-describedby={e.guests ? 'bk-guests-err' : undefined} style={st.guests} />{e.guests ? <span id="bk-guests-err" style="font-size: 13px; color: #9A3520; font-weight: 600">{e.guests}</span> : null}</div>
 <div style="display: flex; flex-direction: column; gap: 8px; grid-column: 1 / -1"><label for="bk-venue" style="font-weight: 700; font-size: 14px">Venue</label><input id="bk-venue" type="text" required placeholder="Venue name and area in CDO" value={v.venue} onInput={onVenue} aria-invalid={e.venue ? 'true' : undefined} aria-describedby={e.venue ? 'bk-venue-err' : undefined} style={st.venue} />{e.venue ? <span id="bk-venue-err" style="font-size: 13px; color: #9A3520; font-weight: 600">{e.venue}</span> : null}</div>
-<div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-start" style="font-weight: 700; font-size: 14px">Service starts</label><input id="bk-start" type="time" value={v.start} onInput={onStart} style={st.plain} /></div>
-<div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-end" style="font-weight: 700; font-size: 14px">Service ends</label><input id="bk-end" type="time" value={v.end} onInput={onEnd} style={st.plain} /></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-start" style="font-weight: 700; font-size: 14px">Service starts</label><input id="bk-start" type="time" min="07:00" max="20:00" step="1800" value={v.start} onInput={onStart} aria-invalid={e.start ? 'true' : undefined} aria-describedby={e.start ? 'bk-start-err' : undefined} style={st.start} />{e.start ? <span id="bk-start-err" style="font-size: 13px; color: #9A3520; font-weight: 600">{e.start}</span> : null}</div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="bk-end" style="font-weight: 700; font-size: 14px">Service ends</label><input id="bk-end" type="time" value={v.end} onInput={onEnd} aria-invalid={e.end ? 'true' : undefined} aria-describedby={e.end ? 'bk-end-err' : undefined} style={st.end} />{e.end ? <span id="bk-end-err" style="font-size: 13px; color: #9A3520; font-weight: 600">{e.end}</span> : null}</div>
 <div style="display: flex; flex-direction: column; gap: 8px; grid-column: 1 / -1"><label for="bk-theme" style="font-weight: 700; font-size: 14px">Theme or notes <span style="font-weight: 500; color: #5A3A28">(for your menu board and cup labels)</span></label><textarea id="bk-theme" rows="3" placeholder="Names, colours, hashtag, drinks you'd like" style="padding: 14px 16px; border-radius: 12px; border: 1.5px solid #D6C3A5; background: #FFFFFF; font-family: inherit; font-size: 16px; resize: vertical" value={v.theme} onInput={onTheme} /></div>
 </div>
 </div>

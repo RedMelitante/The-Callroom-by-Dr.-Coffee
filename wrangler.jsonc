@@ -1,0 +1,14 @@
+// Cloudflare Workers config: serves the static site built into dist/.
+// Build: `npm run build`. Deploy: `npx wrangler deploy` (or Cloudflare Workers Builds from GitHub).
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "the-callroom-by-dr--coffee",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    // Unknown URLs get dist/404.html with a real 404 status
+    "not_found_handling": "404-page",
+    // /about-us is served from about-us.html; /about-us.html redirects to /about-us
+    "html_handling": "auto-trailing-slash"
+  }
+}

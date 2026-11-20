@@ -26,9 +26,19 @@ export const CONTACT = {
 // What is next to the kiosk, for the Visit Us directions. Leave empty until confirmed.
 export const KIOSK_LANDMARK = '';
 
+// Extra addresses that get a copy (CC) of every order and coffee cart booking request.
+// Requests always go to CONTACT.email; the public contact email on the site doesn't change.
+export const REQUESTS_CC = ['redmelitante@gmail.com'];
+
 // Optional form endpoint (e.g. Formspree, Make, Google Apps Script) that receives orders and
 // booking requests as JSON. Without it, requests are handed off to email so nothing is lost.
 export const FORMS_ENDPOINT = import.meta.env.PUBLIC_FORMS_ENDPOINT || '';
+
+// Whether the form endpoint also accepts pickup orders. The Apps Script
+// (integrations/google-apps-script/Code.gs) handles bookings (action "book") and orders
+// (action "order"), so orders are POSTed to it. Set to false to send orders through the
+// email-app hand-off instead (To CONTACT.email, CC REQUESTS_CC).
+export const FORMS_HANDLES_ORDERS = true;
 
 // Online payment (GCash, Maya, card) needs a payment provider connected through the backend.
 // Until then, customers choose how they will pay and pay at the kiosk; card details are never collected.

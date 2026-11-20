@@ -16,3 +16,7 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run build
+      - name: Check the Cloudflare Worker config (no deploy)
+        run: npx wrangler deploy --dry-run
+        env:
+          WRANGLER_SEND_METRICS: 'false'

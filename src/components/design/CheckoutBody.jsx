@@ -34,14 +34,14 @@ if (this.state.sending || !cart.count) return;
 const s = this.state;
 const no = 'CR-' + String(Date.now() % 10000).padStart(4, '0');
 const slot = s.slot || schedule.slots[0];
-const order = { no, name: s.name.trim(), phone: s.phone.trim(), email: s.email.trim(), notify: s.notify, when: schedule.when, slot, pay: s.pay,
+const order = { no, fulfillment: 'Pickup at the 2nd floor kiosk, Madonna Hospital', name: s.name.trim(), phone: s.phone.trim(), email: s.email.trim(), notify: s.notify, when: schedule.when, slot, pay: s.pay,
 items: cart.items.map((i) => ({ name: i.name, size: i.size, opts: i.opts, qty: i.qty, total: i.total })), total: cart.sum, placedAt: new Date().toISOString() };
 const lines = [`New pickup order ${no}`, '', `Name: ${order.name}`, `Mobile: ${order.phone}`, order.email ? `Email: ${order.email}` : null,
 `Pickup: ${order.when}, ${slot}`, `Payment: ${s.pay}${ONLINE_PAYMENTS ? '' : ' (pay at pickup)'}`, `Text when ready: ${s.notify ? 'Yes' : 'No'}`, '',
 ...cart.items.map((i) => `${i.qty} × ${i.name} (${i.opts}) — ${peso(i.total)}`), '', `Total: ${peso(cart.sum)}`].filter((l) => l !== null);
 this.setState({ sending: true, failed: '' });
 try {
-const via = await sendRequest('order', `Pickup order ${no} · ${order.when}, ${slot}`, lines, { order });
+const via = await sendRequest('order', `Pickup order ${no} · ${order.when}, ${slot}`, lines, { action: 'order', order });
 order.via = via;
 try { sessionStorage.setItem('callroom:last-order', JSON.stringify(order)); localStorage.setItem('callroom:contact', JSON.stringify({ name: order.name, phone: order.phone, email: order.email })); } catch { /* ignore */ }
 remember('orders', order);

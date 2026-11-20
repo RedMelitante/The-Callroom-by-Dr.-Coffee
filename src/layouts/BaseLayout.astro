@@ -27,7 +27,9 @@ const {
 } = Astro.props;
 
 const fullTitle = `${title} — The Callroom`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+// Pages are built as files (about-us.html) but served at clean URLs (/about-us).
+const cleanPath = Astro.url.pathname.replace(/(\/index)?\.html$/, '') || '/';
+const canonical = new URL(cleanPath, Astro.site);
 const ogImage = new URL(image, Astro.site);
 ---
 
