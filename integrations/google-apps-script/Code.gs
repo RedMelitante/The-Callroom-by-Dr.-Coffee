@@ -13,7 +13,7 @@
 // ---- Settings -------------------------------------------------------------
 
 /** Who gets every order and booking email. The first address is "To", the rest are CC. */
-var RECIPIENTS = ['thecallroombydc@gmail.com', 'redmelitante@digitalservicesmaster.com'];
+var RECIPIENTS = ['thecallroombydc@gmail.com', 'redmelitante@gmail.com'];
 
 /** Calendar for bookings: 'primary' = the default calendar of the account that deploys this script. */
 var CALENDAR_ID = 'primary';
