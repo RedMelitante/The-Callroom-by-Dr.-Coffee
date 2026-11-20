@@ -64,10 +64,9 @@ Old WordPress URLs redirect: `/shop` → `/menu`, `/coffee-cart` → `/coffee-ca
 
 There is no store backend yet, so the site works like this:
 
-- **Form service (set up before launch):** [`integrations/google-apps-script/`](integrations/google-apps-script/README.md) is a free Google Apps Script owned by redmelitante@gmail.com. Deploy it and set its URL as `PUBLIC_FORMS_ENDPOINT`. Then:
-  - **coffee cart bookings** are emailed to thecallroombydc@gmail.com (CC redmelitante@gmail.com) **and** added to Google Calendar (the calendar of redmelitante@gmail.com, which owns the script) as a yellow "request" event;
+- **Form service (set up before launch):** [`integrations/google-apps-script/`](integrations/google-apps-script/README.md) is the Google Apps Script backend, owned by redmelitante@gmail.com and already deployed. Update it to this version, then set its `/exec` URL as `PUBLIC_FORMS_ENDPOINT`. The site POSTs `action: "book"` or `action: "order"`. Then:
+  - **coffee cart bookings** are emailed to thecallroombydc@gmail.com (CC redmelitante@gmail.com) **and** added as a yellow PENDING event to the cart's Google Calendar (`CONFIG.calendarId`) at the requested 30-minute slot;
   - **pickup orders** are emailed to the same two addresses, with no calendar event.
-- Another service can be used instead (Formspree, Make, Zapier): the site POSTs JSON with `kind` (`order` or `booking`), `subject`, `to` and `cc`, a readable `summary`, and the full `order` / `booking` object.
 - **If `PUBLIC_FORMS_ENDPOINT` is not set**, the customer's email app opens with the order or request filled in, addressed to thecallroombydc@gmail.com with a copy (CC) to the addresses in `REQUESTS_CC` (`src/lib/site.js`). The confirmation screen tells them to press send. Nothing goes on the calendar in this mode.
 - **Payment** is taken at the kiosk for now (`ONLINE_PAYMENTS = false` in `src/lib/site.js`). The checkout still lets customers choose GCash, Maya or card, but the site never collects card details. Turning on online payment needs a payment provider (e.g. PayMongo) through a backend.
 - **My account** shows the orders, bookings and details saved in that browser (`ACCOUNTS_ENABLED = false`). Real sign-in needs a backend.

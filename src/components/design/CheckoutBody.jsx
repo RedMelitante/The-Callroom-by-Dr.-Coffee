@@ -41,7 +41,7 @@ const lines = [`New pickup order ${no}`, '', `Name: ${order.name}`, `Mobile: ${o
 ...cart.items.map((i) => `${i.qty} × ${i.name} (${i.opts}) — ${peso(i.total)}`), '', `Total: ${peso(cart.sum)}`].filter((l) => l !== null);
 this.setState({ sending: true, failed: '' });
 try {
-const via = await sendRequest('order', `Pickup order ${no} · ${order.when}, ${slot}`, lines, { order });
+const via = await sendRequest('order', `Pickup order ${no} · ${order.when}, ${slot}`, lines, { action: 'order', order });
 order.via = via;
 try { sessionStorage.setItem('callroom:last-order', JSON.stringify(order)); localStorage.setItem('callroom:contact', JSON.stringify({ name: order.name, phone: order.phone, email: order.email })); } catch { /* ignore */ }
 remember('orders', order);
