@@ -4,34 +4,32 @@
 
 | Request | Email | Google Calendar |
 | --- | --- | --- |
-| **Coffee cart booking** | To redmelitante@digitalservicesmaster.com | Creates a **yellow** event on the booked date and service times, with all details |
-| **Pickup order** | To redmelitante@digitalservicesmaster.com | Nothing |
-
-For now only redmelitante@digitalservicesmaster.com receives requests. To add the shop later, change `RECIPIENTS` (see *Everyday use*).
+| **Coffee cart booking** | To thecallroombydc@gmail.com, CC redmelitante@digitalservicesmaster.com | Creates a **yellow** event on the booked date and service times, with all details |
+| **Pickup order** | To thecallroombydc@gmail.com, CC redmelitante@digitalservicesmaster.com | Nothing |
 
 Reply-to is set to the customer's email when they gave one, so you can reply straight from the email. The recipients are fixed in the script (`RECIPIENTS`), not taken from the website's request, so nobody can use it to send email elsewhere.
 
-It's free, runs in a Google account, and works within Google's daily email quota (100 emails a day on a free Gmail account, 1,500 on Google Workspace).
+It's free, runs in the shop's Google account, and works within Google's daily email quota (100 emails a day on a free Gmail account, 1,500 on Google Workspace).
 
 ## Set it up (about 5 minutes)
 
-Do this **signed in to the Google account whose calendar should get the bookings**. The events go on that account's calendar and the emails are sent from it. If digitalservicesmaster.com runs on Google Workspace, use redmelitante@digitalservicesmaster.com; otherwise use the shop's thecallroombydc@gmail.com (the emails still go only to redmelitante@digitalservicesmaster.com).
+Do this **signed in as thecallroombydc@gmail.com**: the events go on that account's calendar and the emails come from it.
 
 1. Go to [script.google.com](https://script.google.com) and click **New project**. Name it "Callroom website forms".
 2. Delete what's in the editor, paste in the whole of `Code.gs`, and click **Save**.
-3. Check permissions: in the toolbar, choose the function **`testSetup`** and click **Run**. Google asks you to authorise the script (Gmail and Calendar). Click through, including **Advanced → Go to Callroom website forms (unsafe)**. That warning appears for every personal script. You should then get a test email at redmelitante@digitalservicesmaster.com and a yellow "TEST" event tomorrow afternoon. Delete the event.
+3. Check permissions: in the toolbar, choose the function **`testSetup`** and click **Run**. Google asks you to authorise the script (Gmail and Calendar). Click through, including **Advanced → Go to Callroom website forms (unsafe)**. That warning appears for every personal script. You should then get a test email at both addresses and a yellow "TEST" event tomorrow afternoon. Delete the event.
 4. Click **Deploy → New deployment**, choose type **Web app**, and set:
-   - **Execute as:** Me (the account you're signed in with)
+   - **Execute as:** Me (thecallroombydc@gmail.com)
    - **Who has access:** Anyone
 
    Click **Deploy** and copy the **Web app URL** (it ends in `/exec`).
 5. Give the URL to the website. On Railway, open the service's **Variables**, add `PUBLIC_FORMS_ENDPOINT` = the Web app URL, and redeploy. The variable is read at build time, so a redeploy is needed.
-6. Send a real test booking and a test order from the live site, and check the inbox and the calendar.
+6. Send a real test booking and a test order from the live site, and check both inboxes and the calendar.
 
 ## Everyday use
 
 - A yellow event means a **request**. Once you've sent the quote and the customer confirms, change the event colour (or delete it if they cancel).
-- To change who gets the emails or which calendar is used, edit `RECIPIENTS` or `CALENDAR_ID` at the top of the script. To add the shop, use `var RECIPIENTS = ['thecallroombydc@gmail.com', 'redmelitante@digitalservicesmaster.com'];` (first address is To, the rest CC). Then go to **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy**. The URL stays the same, so the website doesn't need changing.
+- To change who gets the emails or which calendar is used, edit `RECIPIENTS` or `CALENDAR_ID` at the top of the script. Then go to **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy**. The URL stays the same, so the website doesn't need changing.
 - To use a separate calendar (e.g. "Coffee cart bookings"), create it in Google Calendar, then copy its **Calendar ID** from *Settings and sharing → Integrate calendar* into `CALENDAR_ID`.
 
 ## If something goes wrong

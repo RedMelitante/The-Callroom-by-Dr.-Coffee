@@ -64,12 +64,11 @@ Old WordPress URLs redirect: `/shop` → `/menu`, `/coffee-cart` → `/coffee-ca
 
 There is no store backend yet, so the site works like this:
 
-- **Form service (set up before launch):** [`integrations/google-apps-script/`](integrations/google-apps-script/README.md) is a free Google Apps Script that runs in a Google account. Deploy it and set its URL as `PUBLIC_FORMS_ENDPOINT`. Then:
-  - **coffee cart bookings** are emailed to redmelitante@digitalservicesmaster.com **and** added to Google Calendar as a yellow "request" event;
-  - **pickup orders** are emailed to the same address, with no calendar event.
-- For now requests go **only to redmelitante@digitalservicesmaster.com**: `REQUESTS_TO` / `REQUESTS_CC` in `src/lib/site.js` and `RECIPIENTS` in the script. The public contact email on the site stays thecallroombydc@gmail.com.
+- **Form service (set up before launch):** [`integrations/google-apps-script/`](integrations/google-apps-script/README.md) is a free Google Apps Script that runs in the shop's Google account. Deploy it and set its URL as `PUBLIC_FORMS_ENDPOINT`. Then:
+  - **coffee cart bookings** are emailed to thecallroombydc@gmail.com (CC redmelitante@digitalservicesmaster.com) **and** added to the shop's Google Calendar as a yellow "request" event;
+  - **pickup orders** are emailed to the same two addresses, with no calendar event.
 - Another service can be used instead (Formspree, Make, Zapier): the site POSTs JSON with `kind` (`order` or `booking`), `subject`, `to` and `cc`, a readable `summary`, and the full `order` / `booking` object.
-- **If `PUBLIC_FORMS_ENDPOINT` is not set**, the customer's email app opens with the order or request filled in, addressed to `REQUESTS_TO` (plus any `REQUESTS_CC`). The confirmation screen tells them to press send. Nothing goes on the calendar in this mode.
+- **If `PUBLIC_FORMS_ENDPOINT` is not set**, the customer's email app opens with the order or request filled in, addressed to thecallroombydc@gmail.com with a copy (CC) to the addresses in `REQUESTS_CC` (`src/lib/site.js`). The confirmation screen tells them to press send. Nothing goes on the calendar in this mode.
 - **Payment** is taken at the kiosk for now (`ONLINE_PAYMENTS = false` in `src/lib/site.js`). The checkout still lets customers choose GCash, Maya or card, but the site never collects card details. Turning on online payment needs a payment provider (e.g. PayMongo) through a backend.
 - **My account** shows the orders, bookings and details saved in that browser (`ACCOUNTS_ENABLED = false`). Real sign-in needs a backend.
 
