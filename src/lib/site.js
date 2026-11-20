@@ -34,10 +34,10 @@ export const REQUESTS_CC = ['redmelitante@gmail.com'];
 // booking requests as JSON. Without it, requests are handed off to email so nothing is lost.
 export const FORMS_ENDPOINT = import.meta.env.PUBLIC_FORMS_ENDPOINT || '';
 
-// Whether the form endpoint also accepts pickup orders. The deployed Apps Script
-// (integrations/google-apps-script/Code.gs) handles coffee cart bookings only (action "book"),
-// so orders keep using the email-app hand-off: To CONTACT.email, CC REQUESTS_CC.
-// Set to true once the endpoint accepts orders (action "order").
+// Whether the form endpoint also accepts pickup orders. The Apps Script
+// (integrations/google-apps-script/Code.gs) handles bookings (action "book") and orders
+// (action "order"), so orders are POSTed to it. Set to false to send orders through the
+// email-app hand-off instead (To CONTACT.email, CC REQUESTS_CC).
 export const FORMS_HANDLES_ORDERS = true;
 
 // Online payment (GCash, Maya, card) needs a payment provider connected through the backend.

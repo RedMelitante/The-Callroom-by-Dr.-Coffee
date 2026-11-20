@@ -68,10 +68,10 @@ Old WordPress URLs redirect: `/shop` → `/menu`, `/coffee-cart` → `/coffee-ca
 
 There is no store backend yet, so the site works like this:
 
-- **Booking backend (set up before launch):** [`integrations/google-apps-script/`](integrations/google-apps-script/README.md) holds the Google Apps Script already deployed by redmelitante@gmail.com. Set its `/exec` URL as `PUBLIC_FORMS_ENDPOINT`. Then:
-  - **coffee cart bookings** POST `action: "book"` to it. It adds a yellow PENDING event to the cart's Google Calendar at the requested 30-minute slot and emails `CONFIG.notifyEmail` (currently redmelitante@gmail.com; the setup guide shows how to add the shop);
-  - **pickup orders** don't go to the script, which has no order action (`FORMS_HANDLES_ORDERS = false` in `src/lib/site.js`). The customer's email app opens addressed to thecallroombydc@gmail.com with CC redmelitante@gmail.com. No calendar event.
-- **If `PUBLIC_FORMS_ENDPOINT` is not set**, bookings also use the email hand-off: the customer's email app opens with the order or request filled in, addressed to thecallroombydc@gmail.com with a copy (CC) to the addresses in `REQUESTS_CC` (`src/lib/site.js`). The confirmation screen tells them to press send. Nothing goes on the calendar in this mode.
+- **Bookings and orders backend:** [`integrations/google-apps-script/`](integrations/google-apps-script/README.md) holds the Google Apps Script deployed by redmelitante@gmail.com. Set its `/exec` URL as `PUBLIC_FORMS_ENDPOINT`. Then:
+  - **coffee cart bookings** POST `action: "book"`. The script adds a yellow PENDING event to the cart's Google Calendar at the requested 30-minute slot and emails thecallroombydc@gmail.com and redmelitante@gmail.com;
+  - **pickup orders** POST `action: "order"` (`FORMS_HANDLES_ORDERS = true` in `src/lib/site.js`). The script emails the order to the same two addresses. No calendar event.
+- **If `PUBLIC_FORMS_ENDPOINT` is not set**, bookings and orders use the email hand-off: the customer's email app opens with the order or request filled in, addressed to thecallroombydc@gmail.com with a copy (CC) to the addresses in `REQUESTS_CC` (`src/lib/site.js`). The confirmation screen tells them to press send. Nothing goes on the calendar in this mode.
 - **Payment** is taken at the kiosk for now (`ONLINE_PAYMENTS = false` in `src/lib/site.js`). The checkout still lets customers choose GCash, Maya or card, but the site never collects card details. Turning on online payment needs a payment provider (e.g. PayMongo) through a backend.
 - **My account** shows the orders, bookings and details saved in that browser (`ACCOUNTS_ENABLED = false`). Real sign-in needs a backend.
 
@@ -111,7 +111,7 @@ Post body in Markdown.
 
 ## Deploying: Cloudflare Workers
 
-The site builds to static files in `dist/`, which a Cloudflare Worker serves. The config is in `wrangler.jsonc` (Worker name: `the-callroom-by-dr-coffee`).
+The site builds to static files in `dist/`, which a Cloudflare Worker serves. The config is in `wrangler.jsonc` (Worker name: `the-callroom-by-dr--coffee`).
 
 **Set up (Cloudflare dashboard → Workers & Pages → Create → Import a repository):**
 1. Pick this GitHub repo and the branch to deploy (`main`).

@@ -1,30 +1,31 @@
-# Booking backend: Google Apps Script
+# Bookings and orders backend: Google Apps Script
 
-`Code.gs` is the **Coffee Cart & Events Booking** backend, exactly as deployed at the site's web app URL. It's owned and deployed by **redmelitante@gmail.com**.
+`Code.gs` matches the live script at the site's web app URL: the **Coffee Cart & Events Booking** backend plus an order action. It's owned and deployed by **redmelitante@gmail.com**.
 
-| Request | Handled by | Email | Google Calendar |
+| Request | POST `action` | Email to `CONFIG.notifyEmail` | Google Calendar |
 | --- | --- | --- | --- |
-| **Coffee cart booking** | This script (POST `action: "book"`) | To `CONFIG.notifyEmail`: **redmelitante@gmail.com** | Yellow **PENDING** event on the cart's calendar (`CONFIG.calendarId`) at the requested 30-minute slot |
-| **Pickup order** | **The website, not this script.** It has no order action. | The customer's email app opens addressed To thecallroombydc@gmail.com, CC redmelitante@gmail.com, and they press send | Nothing |
+| **Coffee cart booking** | `book` | thecallroombydc@gmail.com and redmelitante@gmail.com | Yellow **PENDING** event on the cart's calendar (`CONFIG.calendarId`) at the requested 30-minute slot |
+| **Pickup order** | `order` | thecallroombydc@gmail.com and redmelitante@gmail.com | Nothing |
+
+`CONFIG.notifyEmail` is a comma-separated list; `MailApp.sendEmail` emails every address in it.
 
 How bookings work:
 - The website sends `date`, `session` (the 30-minute slot the customer's start time falls in, 7:00 AM to 8:00 PM), `package` and `packageLabel`, `guestCount`, `location`, `name`, `phone`, and a `note`. The note holds the event type, the full service window, the customer's email and the theme.
 - Slots and dates are never blocked. Overlapping requests show as overlapping PENDING events, and staff confirm by phone.
-- Errors come back as `{ error, message }`. The website then shows the customer an error so they can try again.
 
-## Send booking emails to the shop too
+How orders work (`createOrderRequest`):
+- The website sends `{ action: "order", order: { no, name, phone, email, fulfillment, when, slot, pay, items: [{ name, opts, qty, total }], total } }`. Top-level fields (and `address`, `price`, `options`) are accepted too.
+- Every field is cleaned: control characters and newlines removed, lengths capped, quantities kept between 1 and 99, amounts must be numbers.
+- The email lists the customer's name, phone and email, the fulfillment details and address, payment, every item, and the total.
+- Missing name, phone or items returns `{ error: "MISSING_FIELDS", message: "Please provide your name, phone number, and order items." }` and sends nothing.
 
-`MailApp.sendEmail` accepts several addresses separated by commas, so this one-line change in `CONFIG` sends every booking email to both:
+Any `{ error, message }` reply makes the website show the customer an error, so they can try again.
 
-```js
-notifyEmail: 'thecallroombydc@gmail.com,redmelitante@gmail.com',
-```
+On the website, `FORMS_HANDLES_ORDERS = true` in `src/lib/site.js` sends orders to this script. Set it to `false` to fall back to the email-app hand-off (To thecallroombydc@gmail.com, CC redmelitante@gmail.com).
 
-Then **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy**. The URL stays the same.
+## Updating the live script
 
-## Send orders through this script later
-
-If the script gains an `action: "order"` handler, set `FORMS_HANDLES_ORDERS = true` in `src/lib/site.js`. Orders will then POST `{ action: "order", order: {…} }` to it, instead of opening the customer's email app.
+After changing `Code.gs`, paste it into the Apps Script project, save, then go to **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy**. The URL stays the same.
 
 ## Setup checklist
 

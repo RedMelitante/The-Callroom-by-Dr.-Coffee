@@ -50,7 +50,8 @@
  *******************************************************************/
 
 const CONFIG = {
-  notifyEmail: 'redmelitante@gmail.com',
+  // Comma-separated: MailApp.sendEmail sends to every address listed.
+  notifyEmail: 'thecallroombydc@gmail.com,redmelitante@gmail.com',
   calendarId: '43261ef8e230713b8d282462c5ef2f328d84167e31f497ee66df7df1988c0571@group.calendar.google.com',
 
   // null = no designated day off. Set 0-6 (0=Sunday) to flag one weekday
@@ -101,6 +102,9 @@ function doPost(e) {
     const body = JSON.parse(e.postData.contents);
     if (body.action === 'book') {
       return jsonOutput(createBookingRequest(body));
+    }
+    if (body.action === 'order') {
+      return jsonOutput(createOrderRequest(body));
     }
     return jsonOutput({ error: 'Unknown action' });
   } catch (err) {
@@ -213,6 +217,80 @@ function notifyStaff(name, phone, date, sessionLabel, packageLabel, guestCount, 
   ].filter(function (line) { return line !== ''; });
 
   MailApp.sendEmail(CONFIG.notifyEmail, subject, bodyLines.join('\n'));
+}
+
+/* ================= Order creation ================= */
+
+// Pickup / delivery orders from the website. Email only — no calendar
+// event. Accepts the order either nested under `body.order` (what the
+// website sends) or as top-level fields on `body`.
+function createOrderRequest(body) {
+  const o = (body.order && typeof body.order === 'object') ? body.order : body;
+
+  const name = sanitize(o.name, 100);
+  const phone = sanitize(o.phone, 30);
+  const email = sanitize(o.email, 120);
+  const orderNo = sanitize(o.no || o.orderNo, 20);
+  const fulfillment = sanitize(o.fulfillment, 100) || 'Pickup';
+  const address = sanitize(o.address, 300);
+  const pickupDay = sanitize(o.when, 20);
+  const pickupTime = sanitize(o.slot, 30);
+  const payment = sanitize(o.pay || o.payment, 30);
+  const note = sanitize(o.note, 1000);
+  const total = toAmount(o.total);
+  const items = (Array.isArray(o.items) ? o.items : []).slice(0, 50).map(function (i) {
+    return {
+      name: sanitize(i && i.name, 80),
+      qty: Math.max(1, Math.min(99, parseInt(i && i.qty, 10) || 1)),
+      options: sanitize(i && (i.opts || i.options), 150),
+      total: toAmount(i && (i.total !== undefined ? i.total : i.price)),
+    };
+  }).filter(function (i) { return i.name; });
+
+  if (!name || !phone || !items.length) {
+    return { error: 'MISSING_FIELDS', message: 'Please provide your name, phone number, and order items.' };
+  }
+
+  const when = [pickupDay, pickupTime].filter(function (v) { return v; }).join(', ');
+  const subject = oneLine('New order' + (orderNo ? ' ' + orderNo : '') + ': ' + name + (when ? ' — ' + when : ''));
+  const bodyLines = ['A new order came in:', ''];
+  if (orderNo) bodyLines.push('Order no.: ' + orderNo);
+  bodyLines.push('Customer: ' + name);
+  bodyLines.push('Phone: ' + phone);
+  bodyLines.push('Email: ' + (email || 'not provided'));
+  bodyLines.push('Fulfillment: ' + fulfillment + (when ? ' — ' + when : ''));
+  if (address) bodyLines.push('Address: ' + address);
+  if (payment) bodyLines.push('Payment: ' + payment);
+  if (note) bodyLines.push('Note: ' + note);
+  bodyLines.push('', 'Items:');
+  items.forEach(function (i) {
+    bodyLines.push('- ' + i.qty + ' × ' + i.name + (i.options ? ' (' + i.options + ')' : '') + (i.total !== null ? ' — ₱' + i.total : ''));
+  });
+  bodyLines.push('', 'Total: ' + (total !== null ? '₱' + total : 'not provided'));
+
+  MailApp.sendEmail(CONFIG.notifyEmail, subject, bodyLines.join('\n'));
+
+  return {
+    success: true,
+    message: 'Order received! We will have it ready for you.',
+  };
+}
+
+// Trims, removes control characters (newlines included) and caps length.
+function sanitize(value, maxLength) {
+  if (value === undefined || value === null) return '';
+  return String(value).replace(/[\u0000-\u001F\u007F]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, maxLength);
+}
+
+function oneLine(value) {
+  return sanitize(value, 200);
+}
+
+// Returns a non-negative amount rounded to 2 decimals, or null if not a number.
+function toAmount(value) {
+  const n = Number(value);
+  if (!isFinite(n) || n < 0) return null;
+  return Math.round(n * 100) / 100;
 }
 
 /* ================= Time slot helpers ================= */
