@@ -2,10 +2,11 @@
 // With PUBLIC_FORMS_ENDPOINT set, it POSTs JSON there in the format of the Apps Script backend
 // (integrations/google-apps-script/Code.gs): `payload` carries its `action` ("book" or "order") and fields. Otherwise it opens the customer's email app
 // with the request filled in, addressed to the shop (plus REQUESTS_CC), so no request is silently dropped.
-import { FORMS_ENDPOINT, CONTACT, REQUESTS_CC } from './site.js';
+import { FORMS_ENDPOINT, FORMS_HANDLES_ORDERS, CONTACT, REQUESTS_CC } from './site.js';
 
 export async function sendRequest(kind, subject, lines, payload) {
-  if (FORMS_ENDPOINT) {
+  // Orders go to the endpoint only if it supports them; otherwise they use the email hand-off below.
+  if (FORMS_ENDPOINT && (kind !== 'order' || FORMS_HANDLES_ORDERS)) {
     // Google Apps Script web apps don't answer CORS preflights, so send JSON as text/plain there
     // (a "simple" request). Other services get a normal JSON request.
     const appsScript = /^https:\/\/script\.google\.com\//.test(FORMS_ENDPOINT);
