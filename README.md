@@ -17,8 +17,9 @@ npm run dev        # http://localhost:4321
 | --- | --- |
 | `npm run dev` | Dev server with hot reload |
 | `npm run build` | Build the static site into `dist/` |
-| `npm start` | Serve `dist/` in production on `$PORT` (default 3000) |
 | `npm run preview` | Preview the build with Astro |
+| `npm run preview:cloudflare` | Serve `dist/` locally the way Cloudflare does (`wrangler dev`) |
+| `npm run deploy` | Build and deploy to Cloudflare Workers (after `npx wrangler login`) |
 | `npm run check` | Type-check the project |
 
 ## Pages
@@ -57,6 +58,9 @@ Old WordPress URLs redirect: `/shop` → `/menu`, `/coffee-cart` → `/coffee-ca
 | `src/styles/global.css` | Tailwind v4 `@theme` tokens, focus ring, blog article styles |
 | `src/content/blog/` | Blog posts (Markdown) |
 | `public/images/` | All design images (WebP) |
+| `public/_headers` | Cloudflare response headers |
+| `wrangler.jsonc` | Cloudflare Worker config |
+| `scripts/cloudflare-redirects.mjs` | Generates the 301 redirects (`dist/_redirects`) on each build |
 | `integrations/google-apps-script/` | Form service: emails orders and bookings, puts bookings on Google Calendar |
 | `design/` | The original Claude Design handoff bundle |
 
@@ -105,16 +109,33 @@ draft: false
 Post body in Markdown.
 ```
 
-## Deploying
+## Deploying: Cloudflare Workers
 
-The site builds to static files in `dist/`.
+The site builds to static files in `dist/`, which a Cloudflare Worker serves. The config is in `wrangler.jsonc` (Worker name: `the-callroom-by-dr-coffee`).
 
-**Railway:** create a service from this repo. Railway runs `npm run build` and then `npm start`, which serves `dist/` on the port Railway provides with caching and security headers (`public/serve.json`). Set these variables:
+**Set up (Cloudflare dashboard → Workers & Pages → Create → Import a repository):**
+1. Pick this GitHub repo and the branch to deploy (`main`).
+2. Build command: `npm run build`. Deploy command: `npx wrangler deploy`.
+3. Under **Settings → Build → Variables and secrets** (build variables, not runtime variables), add:
+   - `PUBLIC_FORMS_ENDPOINT`: the Google Apps Script `/exec` URL (see [its setup guide](integrations/google-apps-script/README.md));
+   - `SITE_URL`: `https://callroomcoffee.com` (the default; change it only for a different domain).
 
-- `SITE_URL`: the public URL, e.g. `https://callroomcoffee.com` (this is the default).
-- `PUBLIC_FORMS_ENDPOINT`: the Google Apps Script web app URL (see [its setup guide](integrations/google-apps-script/README.md)). It is read at build time, so redeploy after changing it.
+   Both are read at build time, so trigger a new build after changing them.
+4. Test on the `*.workers.dev` URL first. Then add the custom domain under the Worker's **Settings → Domains & Routes**. Copy the existing DNS records, MX and SPF/DKIM TXT included, before moving nameservers.
 
-Any static host (Netlify, Vercel, Cloudflare Pages) also works: build command `npm run build`, output folder `dist`.
+From a computer you can also run `npx wrangler login` once, then `npm run deploy`.
+
+**What Cloudflare serves:**
+- Clean URLs: pages are built as `about-us.html` and served at `/about-us`.
+- `_redirects` is generated on each build by `scripts/cloudflare-redirects.mjs`. It holds:
+  - **301s** from every old WordPress-style trailing-slash URL (`/about-us/` → `/about-us`);
+  - **301s** for the renamed pages (`/shop` → `/menu`, `/coffee-cart` → `/coffee-cart-events`, `/frequently-asked-questions` → `/faq`).
+
+  Query strings such as `gclid`, `utm_*` and `fbclid` are kept. To redirect more old URLs, add them to `OLD_URLS` in that script.
+- Headers: `public/_headers` sets security headers and long caching for `/_astro/*` and `/images/*`.
+- Unknown URLs get the 404 page with a real 404 status.
+
+To test the production setup locally: `npm run build`, then `npm run preview:cloudflare` (runs `wrangler dev`).
 
 ## CI
 

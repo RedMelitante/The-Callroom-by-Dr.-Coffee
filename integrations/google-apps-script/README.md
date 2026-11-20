@@ -31,7 +31,7 @@ If the script gains an `action: "order"` handler, set `FORMS_HANDLES_ORDERS = tr
 1. In the Apps Script project (signed in as redmelitante@gmail.com), open **Project Settings** (gear icon) and check the **Time zone** is **(GMT+08:00) Manila**. Otherwise every slot is off by hours.
 2. Check redmelitante@gmail.com can **make changes to events** on the calendar in `CONFIG.calendarId`.
 3. The deployment should be a **Web app**, with **Execute as: Me** and **Who has access: Anyone**.
-4. Merge the website pull request. Then on Railway set `PUBLIC_FORMS_ENDPOINT` to the `/exec` URL, and redeploy the site (the variable is read at build time).
+4. Merge the website pull request. Then in Cloudflare (the Worker → **Settings → Build → Variables and secrets**), set `PUBLIC_FORMS_ENDPOINT` to the `/exec` URL and trigger a new build. The variable is read at build time.
 
 ## If something goes wrong
 
