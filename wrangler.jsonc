@@ -2,7 +2,7 @@
 // Build: `npm run build`. Deploy: `npx wrangler deploy` (or Cloudflare Workers Builds from GitHub).
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "the-callroom-by-dr-coffee",
+  "name": "the-callroom-by-dr--coffee",
   "compatibility_date": "2026-11-01",
   "assets": {
     "directory": "./dist",
